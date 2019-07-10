@@ -2,7 +2,7 @@
 1. [About CRM](#aboutCRM)
 1. [Use CRM system](#useCRM)
 1. [FAQ](#FAQ)
-1. [Setup of CRM](#setupCRM)
+1. [Set up the CRM system](#setupCRM)
 1. [Extra](#extra)
 
 

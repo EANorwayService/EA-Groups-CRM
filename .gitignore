@@ -1,10 +1,9 @@
 node_modules
 src
 gulpfile.js
-appscript.json
+appsscript.json
 package-lock.json
 package.json
 debug.sh
 /.clasp.json
 /.claspignore
-/.gitignore

@@ -123,29 +123,28 @@ Use [clasp](https://github.com/google/clasp/) to uploade code to Google App Scri
 
 ## Alternative 2: Copy/paste code to Google App Script
 If you haven't used a terminal before the easiest way to transfer the code to Google App Script is to copy/paste the code from GitHub to Google App Script.
-Be sure go get all code from GitHub, and paste it in to three different scripts in the same project.
 
 #### Create a new project on script.google.com
-Log in with the correct user to google and go to Google App Script: script.google.com.
-Make a new project by clicking "New Script", and give the new project a descriptive name for instance CRMsystem.
+Log in with the correct account to google and go to Google App Script: script.google.com.
+Make a new project by clicking "New Script", and give the new project a descriptive name for instance CRMsystem (name of file should not have spaces).
 
 ![How to make a new project](images/newProject.png)
 
-Make two additional scripts in the project you just made and give all scrips the same names as they have in GitHub: candidate, utils and CRMsetup.
+Make two additional HTML files in the project you just made and give all scrips the same names as they have in GitHub: candidate, utils and CRMsetup.
 
-![How to make a new script](images/newScript.png)
+![How to make a new script](images/newHTMLFile.png)
 
-Delete all default code from all three scripts
+Delete all default code from all three HTML files
 
 ![Delete text from scripts](images/deleteText.png)
 
 
 #### Copy code from GitHub
-Open these files on [GitHub](https://github.com/EANorgeService/CRMsetup): candidate.js, utils.js and setUpCRM.js, copy all code from them and paste code to the three different scripts you just made in Google App Script.
+Open these files on [GitHub](https://github.com/EANorgeService/CRMsetup): bundle.js, datePickerNewMeeting.html and datePickerOldMeeting.html, copy all code from them and paste code to the three different scripts you just made in Google App Script.
 
 ![Files to copy from GitHub](images/filesGitHub.png)
 
-#### Paste all code in to three different scripts in Google
+#### Paste all code to the Google App Script edito
 Be sure to paste code from GitHub in to three different scripts, check that you got all code.
 
 ![Pasted code in Google Apps Script](images/readyScript.png)
@@ -162,18 +161,7 @@ In the project you just made on google.script.com click **Resources > Advanced G
 
 ![Advanced Google Services](images/advancedService.png)
 
-### Step 2: Add ID for destination folder to setUpCRM.js
-The CRM system should be set up in a secure location and has to be in a Google Drive folder you have access to. Decide where you want the CRM-system to be set up, and find the ID of that Google Drive folder. Copy this ID, do not include the backslashes.
-
-![How to find ID for folder](images/teamDriveId.png)
-
-Go to the script called setUpCRM.js, and add the ID to **DRIVE_FOLDER_ID**, add the ID between quotationmarks, do not delete the quotationmarks.
-
-![Where to add folder ID](images/addFolderId.png)
-
-Remember to save the script and do not delete the quotationmarks.
-
-### Step 3: Add ID for file with list of members to setUpCRM.js
+### Step 2: Add ID for file with list of members to setUpCRM.js
 Find or make a google Spreadsheet with a list of your community members. You can later choose from this list who you want to add as candidates to the system. Be careful to not include the last part of this URL
 [This is an example](https://docs.google.com/spreadsheets/d/1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io/edit?usp=sharing) of such a list, if your only trying the system you can use this list as you member list.
 The script will add a copy of this list of members to the new folder with the CRM system.
@@ -186,6 +174,19 @@ Go to the script called setUpCRM.js, and add the ID to **MEMBERLIST_ID**, add th
 ![Where to add ID for list of members](images/addMemberListId.png)
 
 Remember to save the script and not delete the quotationmarks.
+
+### Step 3: Add ID for destination folder to setUpCRM.js
+The CRM system should be set up in a secure location and has to be in a Google Drive folder you have access to. Decide where you want the CRM-system to be set up, and find the ID of that Google Drive folder. Copy this ID, do not include the backslashes.
+
+![How to find ID for folder](images/teamDriveId.png)
+
+Go to the script called setUpCRM.js, and add the ID to **DRIVE_FOLDER_ID**, add the ID between quotationmarks, do not delete the quotationmarks.
+
+![Where to add folder ID](images/addFolderId.png)
+
+Remember to save the script and do not delete the quotationmarks.
+
+
 
 ### Step 4: Try to run start() function
 Be sure all scripts are saved.

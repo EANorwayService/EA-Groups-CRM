@@ -130,17 +130,22 @@ Make a new project by clicking "New Script", and give the new project a descript
 
 ![How to make a new project](images/newProject.png)
 
-Make two additional HTML files in the project you just made and give all scrips the same names as they have in GitHub: candidate, utils and CRMsetup.
+Open the project and make one additional script inside the project
 
-![How to make a new script](images/newHTMLFile.png)
+![How to make a new script](images/newScript.png)
 
-Delete all default code from all three HTML files
+Make two additional HTML files and give all scripts the same names as they have in GitHub: bundle.js, CRMsetup.js, datePickerNewMeeting.html and datePickerOldMeeting.html.
+
+![How to make a new HTML file](images/newHTMLFile.png)
+
+Delete all default code from all four scripts
+
+![Delete text from scripts](images/deleteTextScript.png)
 
 ![Delete text from scripts](images/deleteText.png)
 
-
 #### Copy code from GitHub
-Open these files on [GitHub](https://github.com/EANorgeService/CRMsetup): bundle.js, datePickerNewMeeting.html and datePickerOldMeeting.html, copy all code from them and paste code to the three different scripts you just made in Google App Script.
+Open these files on [GitHub](https://github.com/EANorgeService/CRMsetup): bundle.js, CRMsetup.js, datePickerNewMeeting.html and datePickerOldMeeting.html, copy all code from them and paste code to the three different scripts you just made in Google App Script.
 
 ![Files to copy from GitHub](images/filesGitHub.png)
 
@@ -161,7 +166,7 @@ In the project you just made on google.script.com click **Resources > Advanced G
 
 ![Advanced Google Services](images/advancedService.png)
 
-### Step 2: Add ID for file with list of members to setUpCRM.js
+### Step 2: Add ID for file with list of members to bundle.js
 Find or make a google Spreadsheet with a list of your community members. You can later choose from this list who you want to add as candidates to the system. Be careful to not include the last part of this URL
 [This is an example](https://docs.google.com/spreadsheets/d/1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io/edit?usp=sharing) of such a list, if your only trying the system you can use this list as you member list.
 The script will add a copy of this list of members to the new folder with the CRM system.
@@ -169,13 +174,13 @@ Find the ID of the list, do not include the backslashes.
 
 ![How to find ID for member list](images/memberlistId.png)
 
-Go to the script called setUpCRM.js, and add the ID to **MEMBERLIST_ID**, add the ID between quotationmarks.
+Go to the script called bundle.js, and add the ID to **MEMBERLIST_ID**, add the ID between quotationmarks.
 
 ![Where to add ID for list of members](images/addMemberListId.png)
 
 Remember to save the script and not delete the quotationmarks.
 
-### Step 3: Add ID for destination folder to setUpCRM.js
+### Step 3: Add ID for destination folder to bundle.js
 The CRM system should be set up in a secure location and has to be in a Google Drive folder you have access to. Decide where you want the CRM-system to be set up, and find the ID of that Google Drive folder. Copy this ID, do not include the backslashes.
 
 ![How to find ID for folder](images/teamDriveId.png)
@@ -186,16 +191,14 @@ Go to the script called setUpCRM.js, and add the ID to **DRIVE_FOLDER_ID**, add 
 
 Remember to save the script and do not delete the quotationmarks.
 
-
-
-### Step 4: Try to run start() function
+### Step 4: Try to run setupCRM() function
 Be sure all scripts are saved.
-When you've added ID for destination folder and for list of members make sure you are in the setUpCRM.js file and click **Run > Run function > start**
+When you've added ID for destination folder and for list of members make sure you are in the setUpCRM.js file and click **Run > Run function > setUpCRM**
 NB: you need to review authorization, see picture below.
-If you can not find the function start you might be in the wrong file.
+If you can not find the function setupCRM() you might be in the wrong file.
 The CRM system is not a published app nor is it verified by google. Therefore google needs permission to run the app.
 
-![Run start function](images/startFunktion.png)
+![Run setUpCRM function](images/setUpFunction.png)
 
 This might pop up:
 
@@ -211,33 +214,24 @@ Now google will tell you that the CRM system is not an app verified by them
 
 Click **Advanced > Go to CRM(unsafe)**
 
-### Step 5: Run start() function
-After reviewing permission and allowing the CRM system access and approving that you know and trust the app/developer you need to run the start function again.
+### Step 5: Run setUpCRM() function
+After reviewing permission and allowing the CRM system access and approving that you know and trust the app/developer you need to run the setUpCRM function again.
 
-Make sure you are in the setUpCRM.js file and click **Run > Run function > start**.
-If you can not find the function **start** you might be in the wrong file.
+Make sure you are in the setUpCRM.js file and click **Run > Run function > setUpCRM**.
+If you can not find the function **setupCRM()** you might be in the wrong file.
 
-![Run start function](images/startFunktion.png)
+![Run setUpCRM function](images/setUpFunction.png)
 
+### Step 6: Add code names for candidates
+While still in the Keys Spreadsheet after doing step 5 add code names to you candidates. A good tool for finding code names is www.codenamegenerator.com. If you want you can also use real names. 
 
-### Step 6: Connect list of Members and Keys
-Go to the folder where the CRM system in now set up. Open the file Keys, connect it to the list of members by clicking **#REF > Allow access**
+![Example of codenames](images/codeNames.png)
 
-![Connect Keys Spreadsheet with Members Spreadsheet](images/keysConnect.png)
-
-### Step 7: Add code names for candidates
-While still in the Keys Spreadsheet after doing step 5 add code names to you candidates. A good tool for finding code names is www.codenamegenerator.com.
-After you have added code names click **CRM > Update candidates**. Only members/candidates with code names will be added to the system.
-
-![Update candidates](images/updateCandidates.png)
-Example of how the Keys sheets could look with code names.
-
-### Step 8: Connect Main Spreadsheet and Candidate book Spreadsheet
-Open the Spreadsheet CRM main, find the sheet called metrics click **#REF > Allow access**
-
-![Connect Main Spreadsheet with Candidate Book](images/mainSheetConnect.png)
+In this example Kari would not be added as a candidate since they don't have a code name.
+After you have added code names click **CRM > Add candidates**. Only members/candidates with code names will be added to the system.
 
 
+![Update candidates](images/addCandidates.png)
 
 ## Troubleshoot
 
@@ -255,7 +249,7 @@ This means that an ID for a folder is the ID for something else than a folder. C
 ### Access denied DriveApp
 ![Error if access is missing](images/errorWrongMemberlist.png)
 
-This means that you don't have access to, or that the ID to a file is wrong. Check again that the Id for the member list is correct.
+This means that you don't have access to, or that the ID to a file is wrong. Check again that the Id for the member list is correct and that you have access to all template files.
 
 ### We're sorry a server error occurred
 ![Error if a file ID is missing](images/errorNoMemberlist.png)
@@ -265,9 +259,8 @@ This probably means that an ID for a file is missing, check again that you added
 ### It is not the member list ID and not the destination folder ID!
 1. Double check that you use the correct google account when *editing* the scripts, it says what account you use in the top right corner.
 1. The code was not copied correctly from GitHub.
-1. There is a mistake in the template folder :( Contact EA Norway: service@effektivaltruisme.no
-1. There is a mistake in the code :( Contact EA Norway: service@effektivaltruisme.no
-
+1. There is a mistake in the template folder :( Contact EA Norway
+1. There is a mistake in the code :( Contact EA Norway
 # Extra <a name="extra"></a>
 
 ## Add a form to the CRM system

@@ -264,8 +264,24 @@ This probably means that an ID for a file is missing, check again that you added
 # Extra <a name="extra"></a>
 
 ## Add a form to the CRM system
-EA Norway has a form candidates fill out before the first conversation and on form each candidate fills out after each conversation.
-Questions and answers can easiøy be added to each candidate's personal sheet. Here is an example.
-[Form in Candidate Sheet](images/formCandidateSheet)
+EA Norway has one form candidates fill out before the first conversation and one form each candidate fills out after each conversation.
+The CRM-system already has functions specific for these forms and the functions can be fitted to other forms. 
 
-### How to only see some questions from the form
+##### Add Onboarding Form 
+1. Search for handleFillOnboardingForm(); and find the one with two slashes in front. 
+    Before:
+    ![Before pictur of code handleFillOnBoardingForm()](images/beforeOnboarding)
+    After: 
+    ![After pictur of code handleFillOnBoardingForm()](images/afterOnboarding)
+1. Change name of sheet
+    ![Name of sheet](images/nameOfOnboardingSheet)
+
+##### Add Evaluation Form 
+1. Search for handleFillOnboardingForm(); and find the one with two slashes in front. 
+    Before:
+    ![Before pictur of code handleFillOnBoardingForm()](images/beforeOnboarding)
+    After: 
+    ![After pictur of code handleFillOnBoardingForm()](images/afterOnboarding)
+1. Change name of sheet
+    ![Name of sheet](images/nameOfEvaluationSheet)
+

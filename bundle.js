@@ -16,66 +16,6 @@ var module = module || { exports: exports };
 //import { EvaluationFormSheet } from './spreadsheets/EvaluationFormSheet';
 //import { OnboardingFormSheet } from './spreadsheets/OnboardingFormSheet';
 /**
- * Function checks if any candidates have been set to active/inactive since last time this function ran.
- * Prints a message to user about update
- * Compares the list of active candidates in metrics historical to the list of active candidates in metrics.
- * Inactive candidates are not shown in metrics, and information about candidates set from inactive to active is added too metrics.
- */
-function handleActiveInactive(showUi) {
-    if (showUi === void 0) { showUi = true; }
-    var ui = SpreadsheetApp.getUi();
-    try {
-        var newActiveCandidates = [];
-        var allActiveCandidates = MetricsHistoricalSheet.getActiveCandidates();
-        var currentActiveCandidates = MetricsSheet.getCandidates();
-        Logger.log("All: " + allActiveCandidates + "Length: " + allActiveCandidates.length);
-        for (var i = 0; i < allActiveCandidates.length; i++) {
-            if (!Utils.valueInValues(String(allActiveCandidates[i]), currentActiveCandidates.getValues())) {
-                var candidateInfo = MainSpreadsheet.getCandidateSheet(allActiveCandidates[i]).getFormulasMetrics();
-                MetricsSheet.addCandidateInfo(candidateInfo);
-                newActiveCandidates.push(allActiveCandidates[i]);
-            }
-        }
-        var newInactiveCandidates = MetricsSheet.removeInactiveCandidates();
-        Logger.log("New active: " + newActiveCandidates + " New inactive: " + newInactiveCandidates);
-        var messageNewActive = void 0;
-        var messageNewInactive = void 0;
-        if (newActiveCandidates.length === 0) {
-            messageNewActive = "No new candidates were set as active.\n";
-        }
-        else if (newActiveCandidates.length === 1) {
-            messageNewActive = "Candidate with code name " + newActiveCandidates.join(', ') + " was set as active.\n";
-        }
-        else {
-            messageNewActive = "Candidates with code names " + newActiveCandidates.join(', ') + " were set as active.\n";
-        }
-        if (newInactiveCandidates.length === 0) {
-            messageNewInactive = 'No new candidates were set as inactive.\n';
-        }
-        else if (newInactiveCandidates.length === 1) {
-            messageNewInactive = "Candidate with code name " + newInactiveCandidates.join(', ') + " was set as inactive.\n";
-        }
-        else {
-            messageNewInactive = "Candidates with code names " + newInactiveCandidates.join(', ') + " were set as inactive.\n";
-        }
-        if (showUi) {
-            ui.alert(messageNewActive + ' ' + messageNewInactive);
-        }
-        else {
-            Logger.log(messageNewActive + ' ' + messageNewInactive);
-        }
-    }
-    catch (e) {
-        var message = e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack;
-        if (showUi) {
-            ui.alert(message);
-        }
-        else {
-            Logger.log(message);
-        }
-    }
-}
-/**
  * Adds new candidates from key sheet
  * Creates new candidate sheet, new candidate folder and adds candiate to metrics.
  */
@@ -140,7 +80,7 @@ function handleAddCandidates(showUi) {
  */
 function handleFillEvaluationAnswers() {
     try {
-        var allActiveCandidates = MetricsHistoricalSheet.getActiveCandidates();
+        var allActiveCandidates = MetricsSheet.getActiveCandidates();
         for (var i = 0; i < allActiveCandidates.length; i++) {
             var answers = EvaluationFormSheet.getAnswers(allActiveCandidates[i]);
             MainSpreadsheet.getCandidateSheet(allActiveCandidates[i]).fillEvaluationAnswers(answers);
@@ -156,7 +96,7 @@ function handleFillEvaluationAnswers() {
  */
 function handleFillOnboardingForm() {
     try {
-        var allActiveCandidates = MetricsHistoricalSheet.getActiveCandidates();
+        var allActiveCandidates = MetricsSheet.getActiveCandidates();
         Logger.log("All active candidate: " + allActiveCandidates + " length: " + allActiveCandidates.length);
         for (var i = 0; i < allActiveCandidates.length; i++) {
             var answers = OnboardingFormSheet.getAnswers(allActiveCandidates[i]);
@@ -223,19 +163,21 @@ function updateEverything() {
     var candidates;
     var candidateSheet;
     var meetingInfo;
+    var allActiveCandidates;
     var snapshot;
     try {
         handleAddCandidates(false);
-        handleActiveInactive(false);
         // Extra: Remove backslashes if you want this function
         //handleFillEvaluationAnswers();
         snapshotDashboard();
-        var allActiveCandidates = MetricsHistoricalSheet.getActiveCandidates();
+        allActiveCandidates = MetricsSheet.getActiveCandidates();
         Logger.log("ALl active: " + allActiveCandidates);
         for (var i = 0; i < allActiveCandidates.length; i++) {
             meetingInfo = MeetingsSheet.getMeetingInfo(allActiveCandidates[i]);
             candidateSheet = MainSpreadsheet.getCandidateSheet(allActiveCandidates[i]);
             candidateSheet.addMeetingInfo(meetingInfo);
+            snapshot = candidateSheet.getSnapshot();
+            MetricsHistoricalSheet.addCandidateInfo(snapshot);
         }
     }
     catch (e) {
@@ -250,7 +192,7 @@ var module = module || { exports: exports };
 //import gas = GoogleAppsScript;
 //import { MainSpreadsheet } from "./spreadsheets/MainSpreadsheet";
 //import { KeySheet } from "./spreadsheets/KeySheet";
-//import { MetricsHistoricalSheet } from "./spreadsheets/MetricsHistoricalSheet";
+//import { MetricsSheet } from "./spreadsheets/MetricsSheet";
 var properties = PropertiesService.getScriptProperties();
 var CANDIDATE_BOOK_ID = properties.getProperty('CANDIDATE_BOOK_ID');
 var CRM_MAIN_SHEET_ID = properties.getProperty('CRM_MAIN_SHEET_ID');
@@ -286,7 +228,7 @@ function showNewMeetingDialog() {
     var ui = SpreadsheetApp.getUi();
     var codeName = SpreadsheetApp.getActiveSheet().getName();
     // TODO change how check is done: "Can I create meeting fromt his sheet"
-    var existingCandidates = MetricsHistoricalSheet.getActiveCandidates();
+    var existingCandidates = MetricsSheet.getActiveCandidates();
     if (existingCandidates.indexOf(codeName) < 0) {
         var response = ui.alert('Can not plan a new meeting from this sheet', 'Please go to the candidate sheet of the candidate you wish to plan a new meeting for and make sure the candidate is not inactive.', ui.ButtonSet.OK);
         // TODO: Is this ok error handeling?
@@ -294,7 +236,7 @@ function showNewMeetingDialog() {
             return;
         }
     }
-    var html = HtmlService.createHtmlOutputFromFile('html/datePickerNewMeeting')
+    var html = HtmlService.createHtmlOutputFromFile('datePickerNewMeeting')
         .setWidth(200)
         .setHeight(150);
     SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
@@ -305,7 +247,7 @@ function showOldMeetingDialog() {
     var CANDIDATESHEETSSTART = 6;
     var ui = SpreadsheetApp.getUi();
     var codeName = SpreadsheetApp.getActiveSheet().getName();
-    var existingCandidates = MetricsHistoricalSheet.getActiveCandidates();
+    var existingCandidates = MetricsSheet.getActiveCandidates();
     if (existingCandidates.indexOf(codeName) < 0) {
         var response = ui.alert('Can not plan a new meeting from this sheet', 'Please go to the candidate sheet of the candidate you wish to plan a new meeting for and make sure the candidate is not inactive.', ui.ButtonSet.OK);
         // TODO: Is this ok error handeling?
@@ -313,7 +255,7 @@ function showOldMeetingDialog() {
             return;
         }
     }
-    var html = HtmlService.createHtmlOutputFromFile('html/datePickerOldMeeting')
+    var html = HtmlService.createHtmlOutputFromFile('datePickerOldMeeting')
         .setWidth(200)
         .setHeight(200);
     SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
@@ -1371,58 +1313,9 @@ var MetricsHistoricalSheet = /** @class */ (function () {
      */
     MetricsHistoricalSheet.addCandidateInfo = function (candidateInfo) {
         var inputRow = this.sheet.getLastRow() + 1;
-        var range = this.sheet.getRange(inputRow, this.COLUMN_START, 1, candidateInfo[0].length);
+        this.sheet.getRange(inputRow, this.COLUMN_START).setValue(new Date());
+        var range = this.sheet.getRange(inputRow, this.COLUMN_START + 1, 1, candidateInfo[0].length);
         range.setValues(candidateInfo);
-    };
-    /**
-     * @returns all candidates(both active and inactive)
-     */
-    MetricsHistoricalSheet.getAllCandidates = function () {
-        var codeNamesRange = this.sheet.getRange(this.ROW_START, this.START_CODENAMES.column, this.sheet.getLastRow());
-        var lastRow = codeNamesRange.getHeight();
-        var codeNames = [];
-        for (var row = 1; row <= lastRow; row++) {
-            // Cell coordinates are relative to range
-            var cell = codeNamesRange.getCell(row, 1);
-            if (!cell.isBlank() && Utils.isHyperlink(cell)) {
-                var codeName = cell.getValue();
-                if (Utils.isString(codeName)) {
-                    Logger.log('Found code name: %s', codeName);
-                    codeNames.push(String(codeName));
-                }
-                else {
-                    Logger.log('Cell which is neither blank nor hyperlink found, but value: %s is not string', codeName);
-                    //TODO Throw error
-                }
-            }
-        }
-        return codeNames;
-    };
-    /**
-     * @returns only active candidates, not inactive candidates
-     */
-    MetricsHistoricalSheet.getActiveCandidates = function () {
-        var dataRange = this.sheet.getDataRange();
-        var lastRow = dataRange.getHeight();
-        var codeNames = [];
-        for (var row = 1; row <= lastRow; row++) {
-            // Cell coordinates are relative to range
-            var codeNameCell = dataRange.getCell(row, this.START_CODENAMES.column);
-            var activeInactice = String(dataRange.getCell(row, this.START_ACTIVE_INACTIVE.column).getValue());
-            Logger.log("Active inactive metricshist: " + activeInactice);
-            if (!codeNameCell.isBlank() && Utils.isHyperlink(codeNameCell) && activeInactice == 'Active') {
-                var codeName = codeNameCell.getValue();
-                if (Utils.isString(codeName)) {
-                    Logger.log('Found code name: %s', codeName);
-                    codeNames.push(String(codeName));
-                }
-                else {
-                    Logger.log('Cell which is neither blank nor hyperlink found, but value: %s is not string', codeName);
-                    //TODO Throw error
-                }
-            }
-        }
-        return codeNames;
     };
     MetricsHistoricalSheet.ROW_START = 4;
     MetricsHistoricalSheet.COLUMN_START = 2;
@@ -1438,7 +1331,7 @@ var module = module || { exports: exports };
 //import { MainSpreadsheet } from './MainSpreadsheet';
 //import ss = GoogleAppsScript.Spreadsheet;
 //import gas = GoogleAppsScript;
-//import { ElementPositionSheet } from '../utils';
+//import { Utils, ElementPositionSheet } from '../utils';
 var properties = PropertiesService.getScriptProperties();
 var MetricsSheet = /** @class */ (function () {
     function MetricsSheet() {
@@ -1458,14 +1351,6 @@ var MetricsSheet = /** @class */ (function () {
         var inputRow = this.sheet.getLastRow() + 1;
         var range = this.sheet.getRange(inputRow, this.COLUMN_START, 1, candidateInfo[0].length);
         range.setValues(candidateInfo);
-    };
-    /**
-     * Not all candidates are in metrics!
-     * Use metricsHistorical.getAllCandidates() if you want all candidates or metricsHistorical.getActiveCandidates() if you want all active candidates
-     * @returns candidates from metrics sheet
-     */
-    MetricsSheet.getCandidates = function () {
-        return this.sheet.getRange(this.START_CODENAMES.row, this.START_CODENAMES.column, this.sheet.getLastRow());
     };
     /**
      *
@@ -1490,27 +1375,55 @@ var MetricsSheet = /** @class */ (function () {
         }
     };
     /**
-     * Removes all inactive candidates, metrics should only contain active candidates, inactive candidates are stored in Metrics Historical Data sheet
-     * @returns string with all new inactive candidates
+     * @returns all candidates(both active and inactive)
      */
-    MetricsSheet.removeInactiveCandidates = function () {
-        var newInactiveCandidates = [];
-        var data = this.sheet.getDataRange().getValues();
-        var deletedRows = 0;
-        Logger.log("Metrics remove inactive data:" + data + " length: " + data.length);
-        if (!(String(data[this.ACTIVE_INACTIVE.row - 1][this.ACTIVE_INACTIVE.column - 1]) == "Active" || String(data[this.ACTIVE_INACTIVE.row - 1][this.ACTIVE_INACTIVE.column - 1]) == "Inactive")) {
-            throw new Error("First cell is neither active nor inactive, is Active/Incative still in column " + this.ACTIVE_INACTIVE.column + " in Metrics checkForInactiveCandidates ");
-        }
-        for (var i = 0; i < data.length; i++) {
-            Logger.log("Active/inactive" + data[i][this.ACTIVE_INACTIVE.column - 1]);
-            Logger.log("Candidate" + data[i][this.START_CODENAMES.column - 1]);
-            if (String(data[i][this.ACTIVE_INACTIVE.column - 1]) == 'Inactive') {
-                newInactiveCandidates.push(data[i][this.START_CODENAMES.column - 1]);
-                this.sheet.deleteRow(i + 1 - deletedRows);
-                deletedRows++;
+    MetricsSheet.getAllCandidates = function () {
+        var codeNamesRange = this.sheet.getRange(this.START_CODENAMES.row, this.START_CODENAMES.column, this.sheet.getLastRow());
+        var lastRow = codeNamesRange.getHeight();
+        var codeNames = [];
+        for (var row = 1; row <= lastRow; row++) {
+            // Cell coordinates are relative to range
+            var cell = codeNamesRange.getCell(row, 1);
+            if (!cell.isBlank() && Utils.isHyperlink(cell)) {
+                var codeName = cell.getValue();
+                if (Utils.isString(codeName)) {
+                    Logger.log('Found code name: %s', codeName);
+                    codeNames.push(String(codeName));
+                }
+                else {
+                    Logger.log('Cell which is neither blank nor hyperlink found, but value: %s is not string', codeName);
+                    //TODO Throw error
+                }
             }
         }
-        return newInactiveCandidates;
+        return codeNames;
+    };
+    /**
+     * @returns only active candidates, not inactive candidates
+     */
+    MetricsSheet.getActiveCandidates = function () {
+        var dataRange = this.sheet.getDataRange();
+        var lastRow = this.sheet.getLastRow();
+        var codeNames = [];
+        Logger.log("Height: " + lastRow);
+        for (var row = 1; row <= lastRow; row++) {
+            // Cell coordinates are relative to range
+            var codeNameCell = dataRange.getCell(row, this.START_CODENAMES.column);
+            var activeInactice = String(dataRange.getCell(row, this.ACTIVE_INACTIVE.column).getValue());
+            Logger.log("Active inactive: " + activeInactice);
+            if (!codeNameCell.isBlank() && Utils.isHyperlink(codeNameCell) && activeInactice == 'Active') {
+                var codeName = codeNameCell.getValue();
+                if (Utils.isString(codeName)) {
+                    Logger.log('Found code name: %s', codeName);
+                    codeNames.push(String(codeName));
+                }
+                else {
+                    Logger.log('Cell which is neither blank nor hyperlink found, but value: %s is not string', codeName);
+                    //TODO Throw error
+                }
+            }
+        }
+        return codeNames;
     };
     MetricsSheet.START = 1;
     MetricsSheet.COLUMN_START = 2;

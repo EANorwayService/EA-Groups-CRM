@@ -11,15 +11,15 @@ var properties = PropertiesService.getScriptProperties();
 /*
 / Add ID for list of members, between quotationmarks Example for testing: 1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io:
 */
-var MEMBERLIST_ID = '';
+var MEMBERLIST_ID = '1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io';
 /*
 * Change name of new folder if you want, dont remove the quotationmarks:
 */
-var NEW_FOLDER_NAME = 'CRM-system';
+var NEW_FOLDER_NAME = 'CRM-system 12.07';
 /*
 * Add ID of parent-folder, between quotationmarks:
 */
-var DRIVE_FOLDER_ID = '';
+var DRIVE_FOLDER_ID = '1RGS0JBGgrdnAb6EDvLQoMoP0EgKrADBw';
 /**
 * DON'T CHANGE THINGS BELOW:
 */
@@ -35,7 +35,7 @@ function SetUpCRMSystem() {
     try {
         copyTemplates();
         createOnOpenTriggers();
-        //createDailyDashboardTrigger();
+        createDailyDashboardTrigger();
     }
     catch (e) {
         Logger.log(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);

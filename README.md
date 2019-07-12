@@ -130,13 +130,17 @@ Make a new project by clicking "New Script", and give the new project a descript
 
 ![How to make a new project](images/newProject.png)
 
-Open the project and make one additional script inside the project
+Open the project and make one additional script inside the project, you should now have two different scripts and you should name these "bundle" and "CRMsetup".
 
 ![How to make a new script](images/newScript.png)
 
-Make two additional HTML files and give all scripts the same names as they have in GitHub: bundle.js, CRMsetup.js, datePickerNewMeeting.html and datePickerOldMeeting.html.
+Make two additional HTML files name these datePickerNewMeeting and datePickerOldMeeting.
 
 ![How to make a new HTML file](images/newHTMLFile.png)
+
+This is how it should look in your Google App Script editor now: 
+
+![Names of scripts and files in Google Apps Script](images/readyScript.png)
 
 Delete all default code from all four scripts
 
@@ -145,21 +149,20 @@ Delete all default code from all four scripts
 ![Delete text from scripts](images/deleteText.png)
 
 #### Copy code from GitHub
-Open these files on [GitHub](https://github.com/EANorgeService/CRMsetup): bundle.js, CRMsetup.js, datePickerNewMeeting.html and datePickerOldMeeting.html, copy all code from them and paste code to the three different scripts you just made in Google App Script.
+Open these files on [GitHub](https://github.com/EANorgeService/CRMsetup): bundle.js, CRMsetup.js, datePickerNewMeeting.html and datePickerOldMeeting.html, copy all code from them and paste code to the two different scripts and two different html files you just made in Google App Script.
 
 ![Files to copy from GitHub](images/filesGitHub.png)
 
-#### Paste all code to the Google App Script edito
-Be sure to paste code from GitHub in to three different scripts, check that you got all code.
+#### Paste all code to the Google App Script editor
+Paste the code from github into the two scripts and two html files you just made in the Google App Script editor.
+Be sure to get all code. 
 
-![Pasted code in Google Apps Script](images/readyScript.png)
-
-Save all three scripts.
+Save all scripts and html files.
 
 
 
 ## Setup
-After copying and pasting all three files from GitHub to Google App Script the CRM-system can be set up in a destination folder on your google drive.
+After copying and pasting both scripts and html files from GitHub to Google App Script the CRM-system can be set up in a destination folder on your google drive.
 
 ### Step 1: Enable Advanced Drive Service
 In the project you just made on google.script.com click **Resources > Advanced Google Services** scroll down to **Drive** and enable it.

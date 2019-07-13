@@ -118,6 +118,11 @@ To sort the code names list alphabetically select the column with the code names
 ## Alternative 1: Local development
 If you don't want to change the code, or your not used to the terminal skip to the next section.
 Do this if you want to change the code or you know the basics of using a terminal, else the easiest way is to copy/paste.
+git clone
+clasp login
+clasp create
+-> choose Standalone
+clasp push
 To download the code for GitHub use [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 Use [clasp](https://github.com/google/clasp/) to uploade code to Google App Script. Clasp also makes it possible to write code in typescript.
 
@@ -130,11 +135,11 @@ Make a new project by clicking "New Script", and give the new project a descript
 
 ![How to make a new project](images/newProject.png)
 
-Open the project and make one additional script inside the project, you should now have two different scripts and you should name these "bundle" and "CRMsetup".
+Open the project and make one additional script inside the project, you should now have two different scripts and you should name these "bundle" and "CRMsetup". These scripts will automatically be given the ending .gs.
 
 ![How to make a new script](images/newScript.png)
 
-Make two additional HTML files name these datePickerNewMeeting and datePickerOldMeeting.
+Make two additional HTML files name these "datePickerNewMeeting" and "datePickerOldMeeting". These files will automatically be given the ending .html.
 
 ![How to make a new HTML file](images/newHTMLFile.png)
 
@@ -159,8 +164,6 @@ Be sure to get all code.
 
 Save all scripts and html files.
 
-
-
 ## Setup
 After copying and pasting both scripts and html files from GitHub to Google App Script the CRM-system can be set up in a destination folder on your google drive.
 
@@ -169,7 +172,7 @@ In the project you just made on google.script.com click **Resources > Advanced G
 
 ![Advanced Google Services](images/advancedService.png)
 
-### Step 2: Add ID for file with list of members to bundle.js
+### Step 2: Add ID for file with list of members to CRMsetup.gs
 Find or make a google Spreadsheet with a list of your community members. You can later choose from this list who you want to add as candidates to the system. Be careful to not include the last part of this URL
 [This is an example](https://docs.google.com/spreadsheets/d/1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io/edit?usp=sharing) of such a list, if your only trying the system you can use this list as you member list.
 The script will add a copy of this list of members to the new folder with the CRM system.
@@ -177,13 +180,13 @@ Find the ID of the list, do not include the backslashes.
 
 ![How to find ID for member list](images/memberlistId.png)
 
-Go to the script called bundle.js, and add the ID to **MEMBERLIST_ID**, add the ID between quotationmarks.
+Go to the script called CRMsetup.gs, and add the ID to **MEMBERLIST_ID**, add the ID between quotationmarks.
 
 ![Where to add ID for list of members](images/addMemberListId.png)
 
 Remember to save the script and not delete the quotationmarks.
 
-### Step 3: Add ID for destination folder to bundle.js
+### Step 3: Add ID for destination folder to CRMsetup.gs
 The CRM system should be set up in a secure location and has to be in a Google Drive folder you have access to. Decide where you want the CRM-system to be set up, and find the ID of that Google Drive folder. Copy this ID, do not include the backslashes.
 
 ![How to find ID for folder](images/teamDriveId.png)

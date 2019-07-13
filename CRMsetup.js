@@ -1,4 +1,4 @@
-// Compiled using ts2gas 1.6.2 (TypeScript 3.5.2)
+// Compiled using ts2gas 3.4.4 (TypeScript 3.5.3)
 var exports = exports || {};
 var module = module || { exports: exports };
 //import {  Utils} from '../utils';
@@ -11,15 +11,15 @@ var properties = PropertiesService.getScriptProperties();
 /*
 / Add ID for list of members, between quotationmarks Example for testing: 1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io:
 */
-var MEMBERLIST_ID = '1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io';
+var MEMBERLIST_ID = '';
 /*
 * Change name of new folder if you want, dont remove the quotationmarks:
 */
-var NEW_FOLDER_NAME = 'CRM-system 12.07';
+var NEW_FOLDER_NAME = 'CRM-system';
 /*
 * Add ID of parent-folder, between quotationmarks:
 */
-var DRIVE_FOLDER_ID = '1RGS0JBGgrdnAb6EDvLQoMoP0EgKrADBw';
+var DRIVE_FOLDER_ID = '';
 /**
 * DON'T CHANGE THINGS BELOW:
 */

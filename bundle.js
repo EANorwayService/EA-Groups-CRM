@@ -453,7 +453,13 @@ var MeetingNotes = /** @class */ (function () {
     function MeetingNotes(doc) {
         this.doc = doc;
     }
-    ;
+    Object.defineProperty(MeetingNotes, "notesTemplate", {
+        get: function () {
+            return DriveApp.getFileById(properties.getProperty('MEETING_NOTES_TEMPLATE_ID'));
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Method for making a new document for meeting notes, created from template
      * @param codeName Name of candidate
@@ -537,7 +543,6 @@ var MeetingNotes = /** @class */ (function () {
     MeetingNotes.prototype.getUrl = function () {
         return this.doc.getUrl();
     };
-    MeetingNotes.notesTemplate = DriveApp.getFileById(properties.getProperty('MEETING_NOTES_TEMPLATE_ID'));
     return MeetingNotes;
 }());
 exports.MeetingNotes = MeetingNotes;
@@ -555,17 +560,24 @@ var CandidateFolder = /** @class */ (function () {
     function CandidateFolder(folder) {
         this.folder = folder;
     }
+    Object.defineProperty(CandidateFolder, "allCandidatesFolder", {
+        get: function () {
+            return DriveApp.getFolderById(properties.getProperty('CANDIDATES_FOLDER_ID'));
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Method for creating new folder for a candidate
      * @param codeName
      * @returns candidate folder
      */
     CandidateFolder.newCandidateFolder = function (codeName) {
-        new CandidateFolder(CandidateFolder.AllCandidatesFolder.createFolder(codeName));
+        new CandidateFolder(CandidateFolder.allCandidatesFolder.createFolder(codeName));
     };
     // This should not be here, but in a "all-candidate-folders"-folder
     CandidateFolder.getCandidateFolder = function (codeName) {
-        var folderIter = CandidateFolder.AllCandidatesFolder.getFoldersByName(codeName);
+        var folderIter = CandidateFolder.allCandidatesFolder.getFoldersByName(codeName);
         Logger.log("Candidate fodler: " + folderIter);
         var returnFolder;
         var folderCounter = 0;
@@ -606,7 +618,6 @@ var CandidateFolder = /** @class */ (function () {
     CandidateFolder.prototype.getUrl = function () {
         return this.folder.getUrl();
     };
-    CandidateFolder.AllCandidatesFolder = DriveApp.getFolderById(properties.getProperty('CANDIDATES_FOLDER_ID'));
     return CandidateFolder;
 }());
 exports.CandidateFolder = CandidateFolder;
@@ -649,6 +660,20 @@ var CandidateSheet = /** @class */ (function () {
         this.START_ONBOARDING_ANSWERS = { row: 51, column: 5, a1Notation: 'E55' };
         this.sheet = sheet;
     }
+    Object.defineProperty(CandidateSheet, "templateSheet", {
+        get: function () {
+            return SpreadsheetApp.openById(properties.getProperty('CANDIDATE_SHEET_TEMPLATE_ID')).getSheets()[0];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CandidateSheet, "parentSheet", {
+        get: function () {
+            return SpreadsheetApp.openById(properties.getProperty('CRM_MAIN_SHEET_ID'));
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(CandidateSheet.prototype, "codeName", {
         get: function () {
             return this.sheet.getName();
@@ -903,8 +928,6 @@ var CandidateSheet = /** @class */ (function () {
     CandidateSheet.prototype.getUrl = function () {
         return MainSpreadsheet.getUrl() + "#gid=" + this.getId();
     };
-    CandidateSheet.parentSheet = SpreadsheetApp.openById(properties.getProperty('CRM_MAIN_SHEET_ID'));
-    CandidateSheet.templateSheet = SpreadsheetApp.openById(properties.getProperty('CANDIDATE_SHEET_TEMPLATE_ID')).getSheets()[0];
     return CandidateSheet;
 }());
 exports.CandidateSheet = CandidateSheet;
@@ -1022,6 +1045,13 @@ var properties = PropertiesService.getScriptProperties();
 var EvaluationFormSheet = /** @class */ (function () {
     function EvaluationFormSheet() {
     }
+    Object.defineProperty(EvaluationFormSheet, "sheet", {
+        get: function () {
+            return SpreadsheetApp.openById(properties.getProperty('KEY_SHEET_ID')).getSheetByName(EvaluationFormSheet.nameOfSheet);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Gets all answers answers and questions from the form for given candidate(not for all candidates)
      * @param codeName
@@ -1053,7 +1083,6 @@ var EvaluationFormSheet = /** @class */ (function () {
         return formAnswers;
     };
     EvaluationFormSheet.nameOfSheet = 'Evaluation Form';
-    EvaluationFormSheet.sheet = SpreadsheetApp.openById(properties.getProperty('KEY_SHEET_ID')).getSheetByName(EvaluationFormSheet.nameOfSheet);
     EvaluationFormSheet.START = { row: 1, column: 1, a1Notation: 'A1' };
     EvaluationFormSheet.CODENAMES = { row: 2, column: 2, a1Notation: 'B2' };
     return EvaluationFormSheet;
@@ -1071,6 +1100,13 @@ var properties = PropertiesService.getScriptProperties();
 var KeySheet = /** @class */ (function () {
     function KeySheet() {
     }
+    Object.defineProperty(KeySheet, "sheet", {
+        get: function () {
+            return SpreadsheetApp.openById(properties.getProperty('KEY_SHEET_ID')).getSheetByName('Key');
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * @param codeName
      * @returns email of given candidate
@@ -1135,7 +1171,6 @@ var KeySheet = /** @class */ (function () {
             }
         }
     };
-    KeySheet.sheet = SpreadsheetApp.openById(properties.getProperty('KEY_SHEET_ID')).getSheetByName('Key');
     KeySheet.CODENAMES = { row: 3, column: 2, a1Notation: 'B11' };
     KeySheet.EMAIL = { row: 2, column: 11, a1Notation: 'B11' };
     return KeySheet;
@@ -1152,6 +1187,20 @@ var properties = PropertiesService.getScriptProperties();
 var MainSpreadsheet = /** @class */ (function () {
     function MainSpreadsheet() {
     }
+    Object.defineProperty(MainSpreadsheet, "allSheets", {
+        get: function () {
+            return this.spreadsheet.getSheets();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MainSpreadsheet, "spreadsheet", {
+        get: function () {
+            return SpreadsheetApp.openById(properties.getProperty('CRM_MAIN_SHEET_ID'));
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      *
      * @param sheet Delets given sheet
@@ -1184,8 +1233,6 @@ var MainSpreadsheet = /** @class */ (function () {
     MainSpreadsheet.getUrl = function () {
         return this.spreadsheet.getUrl();
     };
-    MainSpreadsheet.spreadsheet = SpreadsheetApp.openById(properties.getProperty('CRM_MAIN_SHEET_ID'));
-    MainSpreadsheet.allSheets = MainSpreadsheet.spreadsheet.getSheets();
     return MainSpreadsheet;
 }());
 exports.MainSpreadsheet = MainSpreadsheet;
@@ -1455,6 +1502,13 @@ var properties = PropertiesService.getScriptProperties();
 var OnboardingFormSheet = /** @class */ (function () {
     function OnboardingFormSheet() {
     }
+    Object.defineProperty(OnboardingFormSheet, "sheet", {
+        get: function () {
+            return SpreadsheetApp.openById(properties.getProperty('KEY_SHEET_ID')).getSheetByName(OnboardingFormSheet.nameOfSheet);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Gets all answers answers and questions from the form for given candidate(not for all candidates)
      * @param codeName
@@ -1489,7 +1543,6 @@ var OnboardingFormSheet = /** @class */ (function () {
         return formAnswers;
     };
     OnboardingFormSheet.nameOfSheet = 'Onboarding Form';
-    OnboardingFormSheet.sheet = SpreadsheetApp.openById(properties.getProperty('KEY_SHEET_ID')).getSheetByName(OnboardingFormSheet.nameOfSheet);
     OnboardingFormSheet.START = { row: 1, column: 1, a1Notation: 'A1' };
     OnboardingFormSheet.CODENAMES = { row: 2, column: 2, a1Notation: 'B2' };
     OnboardingFormSheet.EMAIL = { row: 2, column: 11, a1Notation: 'B11' };

@@ -119,7 +119,7 @@ To sort the code names list alphabetically select the column with the code names
 If you don't want to change the code, or your not used to the terminal skip to the next section.
 Do this if you want to change the code or you know the basics of using a terminal, else the easiest way is to copy/paste.
 To download the code for GitHub use [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
-Use [clasp](https://github.com/google/clasp/) to uploade code to Google App Script. Clasp also makes it possible to write code in typescript.
+Use [clasp](https://github.com/google/clasp/) to uploade code to Google App Script. Clasp also makes it possible to write code in typescript. You have to enable API [here](https://script.google.com/home/usersettings) before you can use clasp.
 
 ## Alternative 2: Copy/paste code to Google App Script
 If you haven't used a terminal before the easiest way to transfer the code to Google App Script is to copy/paste the code from GitHub to Google App Script.
@@ -130,43 +130,46 @@ Make a new project by clicking "New Script", and give the new project a descript
 
 ![How to make a new project](images/newProject.png)
 
-Open the project and make one additional script inside the project
+Open the project and make one additional script inside the project, you should now have two scripts. Gives these the names bundle and CRMsetup. They will automatically get the ending ".gs".
 
 ![How to make a new script](images/newScript.png)
 
-Make two additional HTML files and give all scripts the same names as they have in GitHub: bundle.js, CRMsetup.js, datePickerNewMeeting.html and datePickerOldMeeting.html.
+Make two additional HTML files and give these files the same names datePickerNewMeeting and datePickerOldMeeting. They will automatically get the ending.html. 
 
 ![How to make a new HTML file](images/newHTMLFile.png)
 
-Delete all default code from all four scripts
+You should now have two scripts(.gs) and two html files(.html):
+
+![Pasted code in Google Apps Script](images/readyScript.png)
+
+Delete all default code from both script and both html files.
 
 ![Delete text from scripts](images/deleteTextScript.png)
 
 ![Delete text from scripts](images/deleteText.png)
 
 #### Copy code from GitHub
-Open these files on [GitHub](https://github.com/EANorgeService/CRMsetup): bundle.js, CRMsetup.js, datePickerNewMeeting.html and datePickerOldMeeting.html, copy all code from them and paste code to the three different scripts you just made in Google App Script.
+Open these files on [GitHub](https://github.com/EANorgeService/CRMsetup): bundle.js, CRMsetup.js, datePickerNewMeeting.html and datePickerOldMeeting.html, copy all code from them and paste code to the two different scripts and two different html files you just made in Google App Script.
 
 ![Files to copy from GitHub](images/filesGitHub.png)
 
 #### Paste all code to the Google App Script edito
-Be sure to paste code from GitHub in to three different scripts, check that you got all code.
+Be sure to paste code from GitHub in to two different scripts and two different html files, check that you got all code.
 
-![Pasted code in Google Apps Script](images/readyScript.png)
 
-Save all three scripts.
+
+Save both scripts and both html files.
 
 
 
 ## Setup
-After copying and pasting all three files from GitHub to Google App Script the CRM-system can be set up in a destination folder on your google drive.
+After copying and pasting all code from GitHub to Google App Script the CRM-system can be set up in a destination folder on your google drive.
 
 ### Step 1: Enable Advanced Drive Service
-In the project you just made on google.script.com click **Resources > Advanced Google Services** scroll down to **Drive** and enable it.
-
+Open the project you just made on [script.google.com] click **Resources > Advanced Google Services** scroll down to **Drive** and enable it. 
 ![Advanced Google Services](images/advancedService.png)
 
-### Step 2: Add ID for file with list of members to bundle.js
+### Step 2: Add ID for file with list of members to CRMsetup.gs
 Find or make a google Spreadsheet with a list of your community members. You can later choose from this list who you want to add as candidates to the system. Be careful to not include the last part of this URL
 [This is an example](https://docs.google.com/spreadsheets/d/1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io/edit?usp=sharing) of such a list, if your only trying the system you can use this list as you member list.
 The script will add a copy of this list of members to the new folder with the CRM system.
@@ -174,18 +177,18 @@ Find the ID of the list, do not include the backslashes.
 
 ![How to find ID for member list](images/memberlistId.png)
 
-Go to the script called bundle.js, and add the ID to **MEMBERLIST_ID**, add the ID between quotationmarks.
+Go to the script called CRMsetup, and add the ID to **MEMBERLIST_ID**, add the ID between quotationmarks.
 
 ![Where to add ID for list of members](images/addMemberListId.png)
 
 Remember to save the script and not delete the quotationmarks.
 
-### Step 3: Add ID for destination folder to bundle.js
+### Step 3: Add ID for destination folder to CRMsetup.gs
 The CRM system should be set up in a secure location and has to be in a Google Drive folder you have access to. Decide where you want the CRM-system to be set up, and find the ID of that Google Drive folder. Copy this ID, do not include the backslashes.
 
 ![How to find ID for folder](images/teamDriveId.png)
 
-Go to the script called setUpCRM.js, and add the ID to **DRIVE_FOLDER_ID**, add the ID between quotationmarks, do not delete the quotationmarks.
+Go to the script called setUpCRM.gs, and add the ID to **DRIVE_FOLDER_ID**, add the ID between quotationmarks, do not delete the quotationmarks.
 
 ![Where to add folder ID](images/addFolderId.png)
 
@@ -193,10 +196,10 @@ Remember to save the script and do not delete the quotationmarks.
 
 ### Step 4: Try to run setupCRM() function
 Be sure all scripts are saved.
-When you've added ID for destination folder and for list of members make sure you are in the setUpCRM.js file and click **Run > Run function > setUpCRM**
-NB: you need to review authorization, see picture below.
+When you've added ID for destination folder and for list of members make sure you are in the setUpCRM.gs file and click **Run > Run function > setUpCRM**
+NB: you need to review [authorization](https://developers.google.com/apps-script/guides/services/advanced), see picture below.
 If you can not find the function setupCRM() you might be in the wrong file.
-The CRM system is not a published app nor is it verified by google. Therefore google needs permission to run the app.
+The CRM system is not a published app nor is it verified by google, therefore google needs permission to run the app. More information [here](https://developers.google.com/apps-script/guides/services/advanced).
 
 ![Run setUpCRM function](images/setUpFunction.png)
 
@@ -214,16 +217,18 @@ Now google will tell you that the CRM system is not an app verified by them
 
 Click **Advanced > Go to CRM(unsafe)**
 
-### Step 5: Run setUpCRM() function
+### Step 5: Run setUpCRM() function again
 After reviewing permission and allowing the CRM system access and approving that you know and trust the app/developer you need to run the setUpCRM function again.
 
-Make sure you are in the setUpCRM.js file and click **Run > Run function > setUpCRM**.
+Make sure you are in the setUpCRM.gs file and click **Run > Run function > setUpCRM**.
 If you can not find the function **setupCRM()** you might be in the wrong file.
 
 ![Run setUpCRM function](images/setUpFunction.png)
 
+If there are multiple crm-versions in the destination folder now be sure to keep the newest one and remove all other version, the code will not work on these. 
+
 ### Step 6: Add code names for candidates
-While still in the Keys Spreadsheet after doing step 5 add code names to you candidates. A good tool for finding code names is www.codenamegenerator.com. If you want you can also use real names. 
+Open your destination folder and go to the Keys Spreadsheet after doing step 5 add code names to you candidates. A good tool for finding code names is www.codenamegenerator.com. If you want you can also use real names. 
 
 ![Example of codenames](images/codeNames.png)
 

@@ -236,7 +236,9 @@ When system is now updates the sheet of the candidate will be hidden. When a can
 To set a candidate back to active unhide the sheet and set the candidate back to active. If you only unhide the sheet the sheet will be hidden again when system updates. 
 
 ### Update system
-
+To update everything in the system(this is unfortunately not done automatically). Update everything check for new inactive candidates, fills the next five meetings in dashboard, fills previous meeting and upcoming meeting in candidates sheet and check for new candiates to add. 
+Update everything is run automatically once a day. 
+![Update everything in system](images/updateEverything.png)
 
 # Troubleshoot <a name="troubleshoot"></a>
 

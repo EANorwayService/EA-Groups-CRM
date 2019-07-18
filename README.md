@@ -1,8 +1,9 @@
 # Table of content
 1. [About CRM](#aboutCRM)
-1. [Use CRM system](#useCRM)
-1. [FAQ](#FAQ)
 1. [Set up the CRM system](#setupCRM)
+1. [Use CRM system](#useCRM)
+1. [Troubleshoot](#troubleshoot)
+1. [FAQ](#FAQ)
 1. [Extra](#extra)
 
 
@@ -27,16 +28,18 @@ Here is a [link](https://github.com/EANorgeService/CRMsetup) for the code in Typ
 
 ![Structure of candidate folder](images/folderStructureCandidates.png)
 
-### Keys spreadsheet
+### Key spreadsheet
 You can choose if you want to use real names for candidates or code names. The Keys spreadsheet copies all information from a list of members. 
 
-### CRM Main Spreadsheet
-The Main Sheet gives you an overview of results from your 1:1 meetings.
+### CRM Main spreadsheet
+The _CRM Main spreadsheet gives you an overview of results from your 1:1 meetings.
 With some basic understanding of spreadsheets you can add your own measurements of success.
 
-![CRM Main Spreadsheet](images/sheetCrmMain.png)
+![CRM Main spreadsheet](images/sheetCrmMain.png)
 
-#### Metrics sheet
+#### Dashboard
+
+#### Metrics
 The Metrics Sheet gives you an overview of each candidate.
 
 ![Metrics sheet](images/sheetMetrics.png)
@@ -46,79 +49,49 @@ See all meetings you have planned, and click on each candidate to prepare for th
 
 ![Planner sheet](images/sheetPlanner.png)
 
-### Candidate Book Spreadsheet
-Each candidate gets their own sheet, this makes it easy to prepare for the next meeting.
-
-#### Meetings
-Overview over all meetings you've had.
-
-![Meetings sheet](images/sheetMeetings.png)
-
-#### Candidate sheet
+#### Candidate sheets
 Example of the candidate sheet:
 
 ![Example of candidate sheet](images/sheetCandidates.png)
 
-### Hidden sheets
-Some sheets only exist to give information needed by the code.
-
-##### Urls
-All spreadsheets have a sheet called Urls. This includes URLs to all Spreadsheets in the system, which makes it easier to connect all Spredsheets.
-
-##### Dashboard historic data
+#### Dashboard historical Data
 Sheet that could be useful for gathering data. Can be used when calculating measurements of success.
+
+#### Meetings Historical Data
+Overview over all meetings you've had.
+
+![Meetings sheet](images/sheetMeetings.png)
+
+#### Metrics Historical Data
+
+### Candidate folder
 
 ### Meetings folder
 Notes for all meetings are saved in the meetings folder for each candidate.
 ![Folder with meeting notes for each candidate](iamges/meetingFoler.png)
 
-#### Example of notes for a meeting
+### Meeting notes
 ![Notes for a planned meeting](images/newMeetingDoc.png)
 
-# Use the CRM system <a name="useCRM"></a>
 
-### Add candidates
-In the Google Drive Folder with the CRM system open the Keys Spreadsheet. It is possible to set up the system with codenames of candidates, instead of their real names. A good tool for finding codenames is www.codenamegenerator.com. If you do not wish to use codenames, you can use the candidates' real names in the codename-column of the Key sheet.
-After you have added code names click **CRM > Update candidates**. Only members/candidates with codenames will be added to the system.
 
-![Update candidates](images/updateCandidates.png)
-Example of how the Keys sheets could look with code names.
-
-### Plan meetings and create meeting notes
-Go to the candidate sheet of the candidate you want to plan a meeting with. Click **CRM > Meeting**
-
-![Plan new meeting](images/newMeeting.png)
-
-# FAQ <a name="FAQ"></a>
-### What do I need to know to edit the code?
-Changes to the code can be written in either [Javascript](https://github.com/EANorgeService/CRMsetup) or [Typescript](https://github.com/EANorgeService/CRM) and basic knowledge in one of these languages is necessary.
-
-### Can I change the names of Spreadsheets or sheets?
-The names of the Spreadsheets *can be changed*. Unfortunately the names of the sheets within the Spreadsheets *can not be changed* without also changing them in the code. Also the folders with the code names of each candidate *can not be changed*.
-
-### Update list of members
-It is possible to change the list of members, but if any candidates are added they will only be partly deleted from the system, folders and sheets have to be manually deleted. The CRM setup makes a copy of wanted member list. This copy will not automatically update.  
-
-### Sort code names in alphabetical order
-To sort the code names list alphabetically select the column with the code names(or another column you wish to sort) and click **data -> sort selection**.
-![Sort range](images/sortRange.png)
 
 
 # Set up the CRM system <a name="setupCRM"></a>
 
-## Needed to set up CRM system
+### Needed to set up CRM system
 1. Access to CRMsetup [folder](https://github.com/EANorgeService/CRMsetup) in GitHub.
 1. Access to CRMtemplates [folder](https://drive.google.com/drive/folders/1fcHDHTCHAwwFkLSWX1SwQ-gZExy5NBI5?usp=sharing) in Google Drive.
 1. Access to the Google Drive Folder where you want your CRM system.
 1. Access to a list of all your members, or another list including the people you want as candidates in you system. You can later choose who you want to include from the given list. From now on this list will be called the member list.
 
-## Alternative 1: Local development
+### Alternative 1: Local development
 If you don't want to change the code, or your not used to the terminal skip to the next section.
 Do this if you want to change the code or you know the basics of using a terminal, else the easiest way is to copy/paste.
 To download the code for GitHub use [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 Use [clasp](https://github.com/google/clasp/) to uploade code to Google App Script. Clasp also makes it possible to write code in typescript. You have to enable API [here](https://script.google.com/home/usersettings) before you can use clasp.
 
-## Alternative 2: Copy/paste code to Google App Script
+### Alternative 2: Copy/paste code to Google App Script
 If you haven't used a terminal before the easiest way to transfer the code to Google App Script is to copy/paste the code from GitHub to Google App Script.
 
 #### Create a new project on script.google.com
@@ -153,13 +126,9 @@ Open these files on [GitHub](https://github.com/EANorgeService/CRMsetup): bundle
 #### Paste all code to the Google App Script edito
 Be sure to paste code from GitHub in to two different scripts and two different html files, check that you got all code.
 
-
-
 Save both scripts and both html files.
 
-
-
-## Setup
+### Setup
 After copying and pasting all code from GitHub to Google App Script the CRM-system can be set up in a destination folder on your google drive.
 
 ### Step 1: Enable Advanced Drive Service
@@ -167,10 +136,11 @@ Open the project you just made on [script.google.com] click **Resources > Advanc
 ![Advanced Google Services](images/advancedService.png)
 
 ### Step 2: Add ID for file with list of members to CRMsetup.gs
-Find or make a google Spreadsheet with a list of your community members. You can later choose from this list who you want to add as candidates to the system. Be careful to not include the last part of this URL
-[This is an example](https://docs.google.com/spreadsheets/d/1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io/edit?usp=sharing) of such a list, if your only trying the system you can use this list as you member list.
-The script will add a copy of this list of members to the new folder with the CRM system.
-Find the ID of the list, do not include the backslashes.
+Find or make a google spreadsheet with a list of your community members. You can later choose from this list who you want to add as candidates to the system. Be careful to not include the last part of this URL. <br />
+[This is an example](https://docs.google.com/spreadsheets/d/1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io/edit?usp=sharing) of such a list, if your only trying the system you can use this list as you member list. See this example for how your memberlist should be strucutred. The script assumes that you memeber list starts in cell A1. See more information on the key sheet here: [About CRM](#aboutCRM). 
+
+The script will copy all information in the memberlist and add it to the key sheet. 
+Find the ID of the list, do not include the backslashes. 
 
 ![How to find ID for member list](images/memberlistId.png)
 
@@ -224,18 +194,51 @@ If you can not find the function **setupCRM()** you might be in the wrong file.
 
 If there are multiple crm-versions in the destination folder now be sure to keep the newest one and remove all other version, the code will not work on these. 
 
-### Step 6: Add code names for candidates
-Open your destination folder and go to the Keys Spreadsheet after doing step 5 add code names to you candidates. A good tool for finding code names is www.codenamegenerator.com. If you want you can also use real names. 
+# Use the CRM system <a name="useCRM"></a>
 
-![Example of codenames](images/codeNames.png)
+### Add candidates
+Open your destination folder, the folder with the crm system, and go to the Key spreadsheet. It is possible to set up the system with codenames of candidates, instead of their real names. A good tool for finding codenames is www.codenamegenerator.com. If you do not wish to use codenames, you can use the candidates' real names in the codename-column of the Key sheet.
+After you have added code names click **CRM > Update candidates**. Only members/candidates with codenames will be added to the system. Script assumes values in column B(from cell B3) are code names. If you wish to set up the system with candidates real names add their real names to column B. 
 
-In this example Kari would not be added as a candidate since they don't have a code name.
+![Example of codenames](images/keySheet.png)
+
+In this example Pernille and Kari would not be added as candidates since they don't have a code name(no value in column B).
 After you have added code names click **CRM > Add candidates**. Only members/candidates with code names will be added to the system.
-
 
 ![Update candidates](images/addCandidates.png)
 
-## Troubleshoot
+When candidates are added they get their own folder in the folder "CRM Candidate Folders". They also get their own sheet in the _CRM Main spreadsheet, and their information is linked in the Metrics sheet. The names of the candidate folders and candidate sheets can only be changed if the code name is changed everywhere(inlcuding the Metrics Historical Data sheet and the Meetings Historical Data sheet).
+
+### Add metrics for candidates 
+These are the metrics EA Norway use and they are added to each candidate sheet. See the [guide for the code](https://github.com/EANorwayService/CRM_setup_advanced#aboutCode) if you want to change the metrics. 
+![Metrics candidate sheet](images/metricsCandidate.png)
+Metrics with white background should be changed in the candidate sheets. Metrics with grey background are added automatically. 
+
+### Plan meetings and create meeting notes
+Go to the candidate sheet of the candidate you want to plan a meeting with. 
+
+![Plan new meeting](images/addMeeting.png)
+
+If you already have existing meeting notes choose "Add old meeting". Add the date and url to your existing meeting notes.  
+If you choose "plan new meeting" meeting notes are created automatically from the meeting notes template and added to the candidate folder. 
+To replace the meeting notes template see instructions in the [faq](#faq). Information about meeting will be added to the hidden sheet "Meetings Historical Data".
+### Add actionables to meeting notes
+If your meeting notes have a table code will assume that the last table in notes is actionables. This is how it looks in exisitng template: 
+![Actionables in meeting notes](images/actionablesMeetingNotes.png)
+Actionables from previous meeting will be added to the candidate sheet and to the notes of the upcoming meeting (added on the day of the upcoming meeting). 
+
+### Set candidates as active/inactive
+To set a candidate as inactive change the variable in the candidate sheet.  
+![Varibale active inactive in the candidate sheet](images/statusActiveInactive.png) <br/>
+Cange status of candidate <br/>
+![Choose active or inactive](images/activeInactive.png) <br/>
+When system is now updates the sheet of the candidate will be hidden. When a candidate is inactive their information will not be counted in dashboard, only their meetings are still counted. 
+To set a candidate back to active unhide the sheet and set the candidate back to active. If you only unhide the sheet the sheet will be hidden again when system updates. 
+
+### Update system
+
+
+# Troubleshoot <a name="troubleshoot"></a>
 
 ### No items with the given ID could be found
 
@@ -263,27 +266,45 @@ This probably means that an ID for a file is missing, check again that you added
 1. The code was not copied correctly from GitHub.
 1. There is a mistake in the template folder :( Contact EA Norway
 1. There is a mistake in the code :( Contact EA Norway
+
+# FAQ <a name="FAQ"></a>
+
+### How to change meeting notes template
+If you replace the whole file you also need to update the file id in the code, if you only replace the content of the existing file you do not have to change anything in the code.
+The meeting notes template can be changed by going to your crm folder and click <br/>
+**CRM Templates > CRM Template Meeting Notes**. <br/>
+
+### What do I need to know to edit the code?
+Changes to the code can be written in either [Javascript](https://github.com/EANorgeService/CRMsetup) or [Typescript](https://github.com/EANorgeService/CRM) and basic knowledge in one of these languages is necessary.
+
+### Can I change the names of spreadsheets or sheets?
+The names of the spreadsheets *can be changed*. Unfortunately the names of the sheets within the spreadsheets *can not be changed* without also changing them in the code. Also the folders with the code names of each candidate *can not be changed*.
+
+### Sort code names in alphabetical order
+To sort the code names list alphabetically select the column with the code names(or another column you wish to sort) and click **data -> sort selection**.
+![Sort range](images/sortRange.png)
+
 # Extra <a name="extra"></a>
 
-## Add a form to the CRM system
+### Add a form to the CRM system
 EA Norway has one form candidates fill out before the first conversation and one form each candidate fills out after each conversation.
 The CRM-system already has functions specific for these forms and the functions can be fitted to other forms. 
 
-##### Add Onboarding Form 
-1. Search for handleFillOnboardingForm(); and find the one with two slashes in front. 
-    Before:
-    ![Before pictur of code handleFillOnBoardingForm()](images/beforeOnboarding)
-    After: 
-    ![After pictur of code handleFillOnBoardingForm()](images/afterOnboarding)
-1. Change name of sheet
-    ![Name of sheet](images/nameOfOnboardingSheet)
+#### Add Onboarding Form 
+1. Search for handleFillOnboardingForm(); and find the one with two slashes in front.<br />
+    Before:<br />
+    ![Before pictur of code handleFillOnBoardingForm()](images/addOnboardingBefore.png)<br />
+    After backslashes have been removed:<br />
+    ![After pictur of code handleFillOnBoardingForm()](images/addOnboardingAfter.png)<br />
+1. Change name of sheet<br />
+    ![Name of sheet](images/nameOfOnboardingSheet.png)
 
-##### Add Evaluation Form 
-1. Search for handleFillOnboardingForm(); and find the one with two slashes in front. 
-    Before:
-    ![Before pictur of code handleFillOnBoardingForm()](images/beforeOnboarding)
-    After: 
-    ![After pictur of code handleFillOnBoardingForm()](images/afterOnboarding)
-1. Change name of sheet
-    ![Name of sheet](images/nameOfEvaluationSheet)
+#### Add Evaluation Form 
+1. Search for handleFillOnboardingForm(); and find the one with two slashes in front.<br />
+    Before:<br />
+    ![Before pictur of code handleFillOnBoardingForm()](images/addEvaluationBefore.png)<br />
+    After backslashes have been removed:<br />
+    ![After pictur of code handleFillOnBoardingForm()](images/addEvaluationAfter.png)<br />
+1. Change name of sheet<br />
+    ![Name of sheet](images/nameOfEvaluationSheet.png)
 

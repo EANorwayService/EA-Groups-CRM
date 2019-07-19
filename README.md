@@ -211,6 +211,9 @@ If you can not find the function **setupCRM()** you might be in the wrong file.
 
 If there are multiple crm-versions in the destination folder now be sure to keep the newest one and remove all other version, the code will not work on these. 
 
+### step 6: Move Key Spreadsheet to a secure location
+If your system uses code names and you don't want everyone to have access to candidates real name you can move the key spreadsheet to a more secure location. Only people with access to this sheet can run the function "add candidates". Everyone who has access to the actual code can also access data from the Key spreadsheet. 
+
 # Use the CRM system <a name="useCRM"></a>
 
 ### Add candidates
@@ -288,18 +291,49 @@ This probably means that an ID for a file is missing, check again that you added
 
 # FAQ <a name="FAQ"></a>
 
-### How to change meeting notes template
-If you replace the whole file you also need to update the file id in the code, if you only replace the content of the existing file you do not have to change anything in the code.
-The meeting notes template can be changed by going to your crm folder and click <br/>
-**CRM Templates > CRM Template Meeting Notes**. <br/>
-
 ### What do I need to know to use alternative 1 of set up?
 Alternative 1 is not difficult, but it takes longer if you have never used a terminal before and probably requieres some googleing. 
 If you are going to use this system alternative 1 is recomended, it makes it easier to make your own changes later. 
 Here is a [guide](https://github.com/EANorwayService/CRM_setup_advanced) for alternative 1.
 
+### How to change meeting notes template
+If you replace the whole file you also need to update the file id in the code, if you only replace the content of the existing file you do not have to change anything in the code.
+The meeting notes template can be changed by going to your crm folder and click <br/>
+**CRM Templates > CRM Template Meeting Notes**. <br/>
+
 ### Can I change the names of spreadsheets or sheets?
 The names of the spreadsheets *can be changed*. Unfortunately the names of the sheets within the spreadsheets *can not be changed* without also changing them in the code. Also the folders with the code names of each candidate *can not be changed*.
+
+### Can I remove, add or change something in sheets?
+The code does not know what your sheets look like if you do changes. If you change something in a sheet you need to change this in the code if it is a part that is affected by the code. Here is a guide on how to do it: https://github.com/EANorwayService/CRM_setup_advanced#aboutCode.  
+
+### Can I change the name of a candidate?
+You need to change the name in: 
+1. Metrics
+1. Metrics Historical Data
+1. Meetings Hisorical Data
+1. the name of the candidate sheet
+1. the name of the candidate folder
+You do not have to change anything in the code.
+
+### Can I delete a candidate?  
+You need to delete the candidate from: 
+1. Metrics (delete 1 row)
+1. Metrics Historical Data (delete all row with the candidate, if you want to delete all data)
+1. Meetings Hisorical Data (delete all meetings if you want to delete all data)
+1. the candidate sheet
+1. the candidate folder
+You do not have to change anything in the code.
+After doing this you should run the function copySystem(). This function will make a function of all spreadsheets and add the new sheets to the code. 
+This way the candidate is also deleted from the spreadsheets' version history. 
+
+### What is mali-model? 
+You can read more about it here: 
+
+### Who should I contact if I have issues? 
+post@effektivaltruisme.no
+
+### What is case study/success story?
 
 # Extra <a name="extra"></a>
 

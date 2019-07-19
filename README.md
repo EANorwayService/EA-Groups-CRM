@@ -300,6 +300,7 @@ Here is a [guide](https://github.com/EANorwayService/CRM_setup_advanced) for alt
 If you replace the whole file you also need to update the file id in the code, if you only replace the content of the existing file you do not have to change anything in the code.
 The meeting notes template can be changed by going to your CRM folder and click <br/>
 **CRM Templates > CRM Template Meeting Notes**. <br/>
+If you want to replace the file, and not just the content of the existing file, open the code editor with you CRM code. Click **File > Project properties > Script properties** And change the value of MEETING_NOTES_TEMPLATE_ID to the id of your meeting notes file. This file can by save anywhere but the person running the "add meeting" function needs to have link access to it. 
 
 ### Can I change the names of spreadsheets or sheets?
 The names of the spreadsheets *can be changed*. Unfortunately the names of the sheets within the spreadsheets *can not be changed* without also changing them in the code. Also, the folders with the code names of each candidate *can not be changed*.

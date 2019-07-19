@@ -327,13 +327,16 @@ You do not have to change anything in the code.
 After doing this you should run the function copySystem(). This function will make a function of all spreadsheets and add the new sheets to the code. 
 This way the candidate is also deleted from the spreadsheets' version history. 
 
-### What is mali-model? 
-You can read more about it here: 
+### What is case study/success story?
+The CRM system allows you to mark candidates as potential case studies or success stories. Case studies and success stories are often used as metrics to measure the results of one-to-one conversations.
+
+### What is the mali-model? 
+A model used by EA Norway to map how well they know the candidate compared to their score on CEAs 3-factor model of resources, dedication and realisation. It is based on the assumption that the closer you are to a candidate, the easier it is to increase their resources, dedication and realisation. Send an email to post@effektivaltruisme.no for more information.
 
 ### Who should I contact if I have issues? 
 post@effektivaltruisme.no
 
-### What is case study/success story?
+
 
 # Extra <a name="extra"></a>
 

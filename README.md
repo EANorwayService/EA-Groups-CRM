@@ -7,7 +7,7 @@
 1. [Extra](#extra)
 
 
-# CRM system <a name="aboutCRM"></a>
+# About the CRM system <a name="aboutCRM"></a>
 
 This is a CRM system in Google App Script developed by Effective Altruism Norway.
 The goal of this CRM system is to streamline 1-1 meetings. Key features of the system:

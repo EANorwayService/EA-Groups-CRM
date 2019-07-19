@@ -26,7 +26,7 @@ Here is a [link](https://github.com/EANorgeService/CRMsetup) for the code in Typ
 ### Folder structure
 
 ![Structure of folders](images/folderStructure.png) <br/>
-The CRM system consist of two spreaadsheets, a folder with templates and a folder for each candidate. <br/>
+The CRM system consists of two spreadsheets, a folder with templates and a folder for each candidate. <br/>
 
 ![Structure of candidate folder](images/folderStructureCandidates.png)
 Inside the folder "CRM Candidate Folders" there is one folder for each candidate. In this example the candidates have code names. <br/> 
@@ -45,13 +45,13 @@ Notes for all meetings are saved in the meetings folder for each candidate. Thes
 This is an example of how meeting notes can look. If you want to change template for meeting notes you can do it after the system has been set up, see insturctions in the [faq](#faq). 
 
 ### Key spreadsheet
-This is one of two spreadsheets in the CRM system. This sheet contains sensitive information of candidates and should be stored in a safe place where only people who need access have access to it. 
+This is one of two spreadsheets in the CRM system. This spreadsheet contains sensitive information of candidates and should be stored in a safe place where only people who need access have access to it. 
 It consists of the Key sheet, but other sheets with sensistive information like sheets linked to forms could also be stored here.
 EA Norway has two additional sheets here, "Onboarding Form" and "Evaluation Form". 
 
 #### Key sheet
 ![The Key sheet](images/sheetKey.png)
-This sheet makes it possible to give candidates codenames and not add their actual names to the system. However, if you don’t want to use codenames, you can use their actual names in the codename column. 
+This sheet makes it possible to give candidates code names and not add their actual names to the system. However, if you don’t want to use code names, you can use their actual names in the code name column. 
 #### Evaluation Form 
 This sheet is specific for EA Norway and contains the answers from the meeting evaluation form. <br/>
 This sheet will not be added automatically to the system. There is a feature for adding information from this sheet to the candidate sheet, see [Extra](#extra) on how to add this feature.
@@ -79,7 +79,7 @@ This sheet shows previous meeting and next planned meeting of each candidate, th
 
 #### Candidate sheets
 ![Example of candidate sheet](images/sheetCandidates.png)
-Each candidate has their own candidate sheet, a new sheet is created every time a candidate is added. This is an example for a candidate sheet for a candidate with a codename. These sheets are automatically created when a candidate is added. 
+Each candidate has their own candidate sheet, a new sheet is created every time a candidate is added. This is an example for a candidate sheet for a candidate with a code name. These sheets are automatically created when a candidate is added. 
 
 #### Dashboard Historical Data (hidden in spreadsheet)
 ![Dashboard Historical Data](images/sheetDashboardHistoricalData.png)
@@ -217,8 +217,8 @@ If your system uses code names and you don't want everyone to have access to can
 # Use the CRM system <a name="useCRM"></a>
 
 ### Add candidates
-Open your destination folder, the folder with the crm system, and go to the Key spreadsheet. It is possible to set up the system with codenames of candidates, instead of their real names. A good tool for finding codenames is www.codenamegenerator.com. If you do not wish to use codenames, you can use the candidates' real names in the codename-column of the Key sheet.
-After you have added code names click **CRM > Update candidates**. Only members/candidates with codenames will be added to the system. Script assumes values in column B(from cell B3) are code names. If you wish to set up the system with candidates real names add their real names to column B. 
+Open your destination folder, the folder with the CRM system, and go to the Key spreadsheet. It is possible to set up the system with code names of candidates, instead of their real names. A good tool for finding code names is www.codenamegenerator.com. If you do not wish to use code names, you can use the candidates' real names in the code name-column of the Key sheet.
+After you have added code names click **CRM > Update candidates**. Only members/candidates with code names will be added to the system. Script assumes values in column B(from cell B3) are code names. If you wish to set up the system with candidates real names add their real names to column B. 
 
 ![Example of codenames](images/keySheet.png)
 
@@ -240,19 +240,19 @@ Go to the candidate sheet of the candidate you want to plan a meeting with.
 ![Plan new meeting](images/addMeeting.png)
 
 If you already have existing meeting notes choose "Add old meeting". Add the date and url to your existing meeting notes.  
-If you choose "plan new meeting" meeting notes are created automatically from the meeting notes template and added to the candidate folder. 
+If you choose "plan new meeting", meeting notes are created automatically from the meeting notes template and added to the candidate folder. 
 To replace the meeting notes template see instructions in the [faq](#faq). Information about meeting will be added to the hidden sheet "Meetings Historical Data".
 ### Add actionables to meeting notes
-If your meeting notes have a table code will assume that the last table in notes is actionables. This is how it looks in exisitng template: <br/>
+If your meeting notes have a table, the code will assume that the last table in notes is actionables. This is how it looks in exisitng template: <br/>
 ![Actionables in meeting notes](images/actionablesMeetingNotes.png) <br/>
 Actionables from previous meeting will be added to the candidate sheet and to the notes of the upcoming meeting (added on the day of the upcoming meeting). 
 
 ### Set candidates as active/inactive
 To set a candidate as inactive change the variable in the candidate sheet.  
 ![Varibale active inactive in the candidate sheet](images/statusActiveInactive.png) <br/>
-Cange status of candidate <br/>
+Change status of candidate <br/>
 ![Choose active or inactive](images/activeInactive.png) <br/>
-When system now is updated the sheet of the candidate will be hidden. When a candidate is inactive their information will not be counted in dashboard, only their meetings are still counted. 
+When system is updated, the sheet of the candidate will be hidden. When a candidate is inactive their information will not be counted in Dashboard, only their meetings are still counted. 
 To set a candidate back to active unhide the sheet and set the candidate back to active. If you only unhide the sheet the sheet will be hidden again when system updates. 
 
 ### Update system
@@ -293,22 +293,22 @@ This probably means that an ID for a file is missing, check again that you added
 
 ### What do I need to know to use alternative 1 of set up?
 Alternative 1 is not difficult, but it takes longer if you have never used a terminal before and probably requieres some googleing. 
-If you are going to use this system alternative 1 is recomended, it makes it easier to make your own changes later. 
+If you are going to use this system, alternative 1 is recomended, it makes it easier to make your own changes later. 
 Here is a [guide](https://github.com/EANorwayService/CRM_setup_advanced) for alternative 1.
 
 ### How to change meeting notes template
 If you replace the whole file you also need to update the file id in the code, if you only replace the content of the existing file you do not have to change anything in the code.
-The meeting notes template can be changed by going to your crm folder and click <br/>
+The meeting notes template can be changed by going to your CRM folder and click <br/>
 **CRM Templates > CRM Template Meeting Notes**. <br/>
 
 ### Can I change the names of spreadsheets or sheets?
-The names of the spreadsheets *can be changed*. Unfortunately the names of the sheets within the spreadsheets *can not be changed* without also changing them in the code. Also the folders with the code names of each candidate *can not be changed*.
+The names of the spreadsheets *can be changed*. Unfortunately the names of the sheets within the spreadsheets *can not be changed* without also changing them in the code. Also, the folders with the code names of each candidate *can not be changed*.
 
 ### Can I remove, add or change something in sheets?
 The code does not know what your sheets look like if you do changes. If you change something in a sheet you need to change this in the code if it is a part that is affected by the code. Here is a guide on how to do it: https://github.com/EANorwayService/CRM_setup_advanced#aboutCode.  
 
 ### Can I change the names of the folders? 
-You can change the names of all folders except the candidate folders, they need to have the same names as the candidates. Also the folders with the meeting notes inside the candidate folders need to have the original name, if no folder with the name "Meeting Notes" is found in candidate folder a new folder with the name "Meeting Notes" is created.
+You can change the names of all folders except the candidate folders, they need to have the same names as the candidates. The folders with the meeting notes inside the candidate folders need to have the original name, if no folder with the name "Meeting Notes" is found in candidate folder a new folder with the name "Meeting Notes" is created.
 
 ### Can I change the name of a candidate?
 You need to change the name in: 
@@ -319,7 +319,7 @@ You need to change the name in:
 1. the name of the candidate folder
 You do not have to change anything in the code.
 
-### Can I delete a candidate?  
+### How can I delete a candidate?  
 You need to delete the candidate from: 
 1. Metrics (delete 1 row)
 1. Metrics Historical Data (delete all row with the candidate, if you want to delete all data)

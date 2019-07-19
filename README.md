@@ -307,6 +307,9 @@ The names of the spreadsheets *can be changed*. Unfortunately the names of the s
 ### Can I remove, add or change something in sheets?
 The code does not know what your sheets look like if you do changes. If you change something in a sheet you need to change this in the code if it is a part that is affected by the code. Here is a guide on how to do it: https://github.com/EANorwayService/CRM_setup_advanced#aboutCode.  
 
+### Can I change the names of the folders? 
+You can change the names of all folders except the candidate folders, they need to have the same names as the candidates. Also the folders with the meeting notes inside the candidate folders need to have the original name, if no folder with the name "Meeting Notes" is found in candidate folder a new folder with the name "Meeting Notes" is created.
+
 ### Can I change the name of a candidate?
 You need to change the name in: 
 1. Metrics

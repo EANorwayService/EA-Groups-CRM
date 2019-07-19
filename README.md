@@ -330,6 +330,14 @@ You do not have to change anything in the code.
 After doing this you should run the function copySystem(). This function will make a function of all spreadsheets and add the new sheets to the code. 
 This way the candidate is also deleted from the spreadsheets' version history. 
 
+### How can I change how often system is updated autmatically? 
+Open the code and click *Edit > Current project's triggers*
+Find the trigger for updateEverything() and you can now edit how often this is triggered.
+
+### How can I change how often dashboard and candidates are snapshoted for the historical sheets? 
+Open the code and click *Edit > Current project's triggers*
+Find the trigger for weeklySnapshot() and you can now edit how often this is triggered.
+
 ### What is case study/success story?
 The CRM system allows you to mark candidates as potential case studies or success stories. Case studies and success stories are often used as metrics to measure the results of one-to-one conversations.
 

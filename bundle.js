@@ -18,6 +18,7 @@ var module = module || { exports: exports };
 /**
  * Adds new candidates from key sheet
  * Creates new candidate sheet, new candidate folder and adds candiate to metrics.
+ * Snapshot has to be 2d array to use gas.Spreadsheet.Range.setValues().
  */
 function handleAddCandidates(showUi) {
     if (showUi === void 0) { showUi = true; }
@@ -51,27 +52,42 @@ function handleAddCandidates(showUi) {
             messageNewCandidates = 'No new candidates were added. Be sure to add code names. Only people with code names will be added as candidates\n';
         }
         else if (newCandidates.length === 1) {
-            messageNewCandidates = "Candidate with code name " + newCandidates.join(', ') + " was updated.\n";
+            messageNewCandidates = "Candidate with code name " + newCandidates.join(', ') + " was added.\n";
         }
         else {
-            messageNewCandidates = "Candidates with code names " + newCandidates.join(', ') + " were updated.\n";
+            messageNewCandidates = "Candidates with code names " + newCandidates.join(', ') + " were added.\n";
         }
         if (showUi) {
-            ui.alert(messageNewCandidates);
+            SpreadsheetApp.getActiveSpreadsheet().toast(messageNewCandidates, 'Status', -1);
         }
         else {
-            Logger.log(messageNewCandidates);
+            console.log(messageNewCandidates);
         }
     }
     catch (e) {
-        //TODO: Send mail with errors to service email. Must be easy to change service mail.
         ui.alert(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
+        console.log(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
     }
     finally {
         var copyFailure = void 0;
         if ((copyFailure = MainSpreadsheet.getSheet("Copy of Candidate sheet template")) != null) {
             MainSpreadsheet.deleteSheet(copyFailure);
         }
+    }
+}
+function handleInactiveCandidates() {
+    try {
+        var candidateSheet = void 0;
+        var inactivecandidates = MetricsSheet.getInactiveCandidates();
+        for (var i = 0; i < inactivecandidates.length; i++) {
+            candidateSheet = MainSpreadsheet.getCandidateSheet(inactivecandidates[i]);
+            if (!candidateSheet.isSheetHidden()) {
+                candidateSheet.hideSheet();
+            }
+        }
+    }
+    catch (e) {
+        console.log(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
     }
 }
 /**
@@ -87,7 +103,22 @@ function handleFillEvaluationAnswers() {
         }
     }
     catch (e) {
-        Logger.log(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
+        console.error(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
+    }
+}
+/**
+ * Fills 5 next meetings to dashboard. To change number of meetings change NEXT_MEETING_END in DashboardSheet class(DashboardSheet.ts),
+ * change layout in dashboard sheet and change variable numberOfMeetings in this method
+ * nextMeetings has to be 2d array to use gas.Spreadsheet.Range.setValues().
+ */
+function handleFillNextMeetings() {
+    try {
+        var numberOfMeeetings = 5;
+        var nextMeetings = MeetingsSheet.getNextMeetings(numberOfMeeetings);
+        DashboardSheet.fillNextMeetings(nextMeetings);
+    }
+    catch (e) {
+        console.error(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
     }
 }
 /**
@@ -97,14 +128,13 @@ function handleFillEvaluationAnswers() {
 function handleFillOnboardingForm() {
     try {
         var allActiveCandidates = MetricsSheet.getActiveCandidates();
-        Logger.log("All active candidate: " + allActiveCandidates + " length: " + allActiveCandidates.length);
         for (var i = 0; i < allActiveCandidates.length; i++) {
             var answers = OnboardingFormSheet.getAnswers(allActiveCandidates[i]);
             MainSpreadsheet.getCandidateSheet(allActiveCandidates[i]).fillOnboardingAnswers(answers);
         }
     }
     catch (e) {
-        Logger.log(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
+        console.log(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
     }
 }
 /**
@@ -112,12 +142,12 @@ function handleFillOnboardingForm() {
  * @param dateIn Date of meeting
  * @param urlNotes Notes if meeting already has meeting notes, null if no notes exist
  * If meeting doesn't already have existing meeting note new notes are created.
+ * snapshotMetrics has to be 2d array to use gas.Spreadsheet.Range.setValues().
  */
 function handleMeeting(dateIn, urlNotes) {
     var ui;
     try {
         ui = SpreadsheetApp.getUi();
-        Logger.log("DateIn: " + dateIn + " Type: " + typeof (dateIn));
         var codeNameSheet = SpreadsheetApp.getActiveSheet();
         var codeName = codeNameSheet.getName();
         var date = new Date(dateIn);
@@ -133,26 +163,42 @@ function handleMeeting(dateIn, urlNotes) {
         }
         // Create new meeting notes
         if (urlNotes == null) {
-            Logger.log("New meeting notes are beeing made");
+            console.log("New meeting notes are beeing made");
             urlNotes = MeetingNotes.newMeetingNotes(codeName, date, meetingsFolder).getUrl();
         }
         MeetingsSheet.addMeeting(snapshotMetrics, date, urlNotes);
         // Update previous and upcoming meeting in candidateSheet from meetingsSheet
         meetingInfo = MeetingsSheet.getMeetingInfo(codeName);
         candidateSheet.addMeetingInfo(meetingInfo);
-        Logger.log("New meeting for " + codeName + " Date in and date: " + dateIn + " " + date.toISOString());
-        SpreadsheetApp.getUi().alert('New meeting created for ' + codeName + ' ' + dateIn);
+        console.log("New meeting for " + codeName + " Date in and date: " + dateIn + " " + date.toISOString());
+        SpreadsheetApp.getActiveSpreadsheet().toast('New meeting created for ' + codeName + ' ' + dateIn, 'Status', -1);
     }
     catch (e) {
         ui.alert(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
+        console.log(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
     }
 }
 /**
- * Takes a snapshot of the Dashboard and adds it to Dashboard Historical Data
+ * Takes a snapshot of the Dashboard and adds it to Dashboard Historical Data sheet.
+ * Array snapshot has to be 2d array to use gas.Spreadsheet.Range.setValues().
  */
 function snapshotDashboard() {
     var snapshot = DashboardSheet.getSnapshot();
     DashboardHistoricalSheet.addSnapshot(snapshot);
+}
+/**
+ * Takes a snapshot of each candidate and adds it to Metrics Historical Data sheet.
+ * Array snapshot has to be 2d array to use gas.Spreadsheet.Range.setValues().
+ */
+function snapshotCandidates() {
+    var allActiveCandidates = MetricsSheet.getActiveCandidates();
+    var snapshot;
+    var candidateSheet;
+    for (var i = 0; i < allActiveCandidates.length; i++) {
+        candidateSheet = MainSpreadsheet.getCandidateSheet(allActiveCandidates[i]);
+        snapshot = candidateSheet.getSnapshot();
+        MetricsHistoricalSheet.addCandidateInfo(snapshot);
+    }
 }
 /**
  * This function is run every night to make sure system is updated
@@ -160,28 +206,34 @@ function snapshotDashboard() {
  * updates meeting notes of all candidate sheets and takes snapshot of all candidate sheets and of the dashboard
  */
 function updateEverything() {
-    var candidates;
     var candidateSheet;
     var meetingInfo;
     var allActiveCandidates;
-    var snapshot;
     try {
+        console.log("Start updateEverything()");
+        handleFillNextMeetings();
+        handleInactiveCandidates();
         handleAddCandidates(false);
         // Extra: Remove backslashes if you want this function
         //handleFillEvaluationAnswers();
-        snapshotDashboard();
         allActiveCandidates = MetricsSheet.getActiveCandidates();
-        Logger.log("ALl active: " + allActiveCandidates);
         for (var i = 0; i < allActiveCandidates.length; i++) {
             meetingInfo = MeetingsSheet.getMeetingInfo(allActiveCandidates[i]);
             candidateSheet = MainSpreadsheet.getCandidateSheet(allActiveCandidates[i]);
             candidateSheet.addMeetingInfo(meetingInfo);
-            snapshot = candidateSheet.getSnapshot();
-            MetricsHistoricalSheet.addCandidateInfo(snapshot);
         }
     }
     catch (e) {
-        Logger.log(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
+        console.log(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
+    }
+}
+function weeklySnapshot() {
+    try {
+        snapshotDashboard();
+        snapshotCandidates();
+    }
+    catch (e) {
+        console.log(e.message + "\n\nHere is more information if you think something is wrong with code: " + e.stack);
     }
 }
 
@@ -213,7 +265,7 @@ function createCRMMenu() {
         .addItem('Add old meeting', 'showOldMeetingDialog'))
         .addSubMenu(ui.createMenu('Update')
         .addItem('Add candidates', 'handleAddCandidates')
-        .addItem('Update Everything', 'updateEverything'))
+        .addItem('Update everything', 'updateEverything'))
         .addToUi();
 }
 function createKeyMenu() {
@@ -227,11 +279,9 @@ function showNewMeetingDialog() {
     var CANDIDATESHEETSSTART = 6;
     var ui = SpreadsheetApp.getUi();
     var codeName = SpreadsheetApp.getActiveSheet().getName();
-    // TODO change how check is done: "Can I create meeting fromt his sheet"
     var existingCandidates = MetricsSheet.getActiveCandidates();
     if (existingCandidates.indexOf(codeName) < 0) {
         var response = ui.alert('Can not plan a new meeting from this sheet', 'Please go to the candidate sheet of the candidate you wish to plan a new meeting for and make sure the candidate is not inactive.', ui.ButtonSet.OK);
-        // TODO: Is this ok error handeling?
         if (response) {
             return;
         }
@@ -241,7 +291,6 @@ function showNewMeetingDialog() {
         .setHeight(150);
     SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
         .showModalDialog(html, 'Plan a new meeting and create meeting notes');
-    Logger.log("Content: " + html.getContent());
 }
 function showOldMeetingDialog() {
     var CANDIDATESHEETSSTART = 6;
@@ -250,7 +299,6 @@ function showOldMeetingDialog() {
     var existingCandidates = MetricsSheet.getActiveCandidates();
     if (existingCandidates.indexOf(codeName) < 0) {
         var response = ui.alert('Can not plan a new meeting from this sheet', 'Please go to the candidate sheet of the candidate you wish to plan a new meeting for and make sure the candidate is not inactive.', ui.ButtonSet.OK);
-        // TODO: Is this ok error handeling?
         if (response) {
             return;
         }
@@ -260,13 +308,67 @@ function showOldMeetingDialog() {
         .setHeight(200);
     SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
         .showModalDialog(html, 'Add meeting with existing meeting notes');
-    Logger.log("Content: " + html.getContent());
 }
 // Utils
 var Utils = /** @class */ (function () {
     function Utils() {
     }
     // Utils 
+    /**
+  * Checks if there is space in sheet based in background color.
+  * If background is not white then a row needs to be added.
+  * If no space adds rows
+  * @param {gas.Spreadsheet.Range} range to check for color
+  * @return {number} number of rows needed to make space
+  */
+    Utils.checkSpaceColor = function (range, color) {
+        var rowsNeeded = 0;
+        var colors = range.getBackgrounds();
+        for (var i = 0; i < colors.length; i++) {
+            if (colors[i][0] != color) {
+                rowsNeeded = range.getHeight() - i;
+                return rowsNeeded;
+            }
+        }
+        return rowsNeeded;
+    };
+    /**
+     * Function for sorting 2d array after first column
+     * @param value
+     * @param values
+     */
+    Utils.compareDates = function (a, b) {
+        var date1 = new Date(String(a[0]));
+        var date2 = new Date(String(b[0]));
+        if (date1 === date2) {
+            return 0;
+        }
+        else if (date1 < date2) {
+            return -1;
+        }
+        else if (date1 > date2) {
+            return 1;
+        }
+    };
+    /**
+     * Function wich returns id for a google drive file from url
+     *
+     * @param {string} url to return id from
+     * @return {string[]} returns id
+     */
+    Utils.getIdFromUrl = function (url) {
+        var id = url.match(/[-\w]{25,}$/);
+        if (id == null) {
+            return null;
+        }
+        return id.join("");
+    };
+    Utils.isDocument = function (url) {
+        if (this.getIdFromUrl(url) != null && (url.indexOf('document') >= 0 || url.indexOf('docs') >= 0)) {
+            return true;
+        }
+        return false;
+    };
     /**
      * Checks whether a cell (1x1-Range) contains a Sheets-hyperlink (=HYPERLINK(...)).
      *
@@ -279,16 +381,7 @@ var Utils = /** @class */ (function () {
             throw new TypeError('isHyperlink passed multiple cell range');
         }
         var value = cell.getFormula();
-        Logger.log("Hyperlink value: " + value);
         if (this.isString(value) && (value.indexOf('HYPERLINK') >= 0)) {
-            Logger.log('isHyperlink returned TRUE for: %s', value);
-            return true;
-        }
-        Logger.log('isHyperlink returned FALSE for: %s', value);
-        return false;
-    };
-    Utils.isDocument = function (url) {
-        if (this.getIdFromUrl(url) != null && (url.indexOf('document') >= 0 || url.indexOf('docs') >= 0)) {
             return true;
         }
         return false;
@@ -304,35 +397,12 @@ var Utils = /** @class */ (function () {
         return typeof value === 'string';
     };
     /**
-    * Checks if there is space in sheet based in background color.
-    * If background is not white then a row needs to be added.
-    * If no space adds rows
-    * @param {gas.Spreadsheet.Range} range to check for color
-    * @return {number} number of rows needed to make space
-    */
-    Utils.checkSpaceColor = function (range) {
-        var rowsNeeded = 0;
-        var colors = range.getBackgrounds();
-        for (var i = 0; i < colors.length; i++) {
-            Logger.log('Color: ' + colors[i][0]);
-            if (colors[i][0] != '#ffffff') {
-                Logger.log(range.getHeight() + " " + i);
-                rowsNeeded = range.getHeight() - i;
-                Logger.log("Rows needed: " + rowsNeeded);
-                return rowsNeeded;
-            }
-        }
-        Logger.log("Rows needed: " + rowsNeeded);
-        return rowsNeeded;
-    };
-    /**
-    * values from a range are 2d arrays, this function checks if item appears in 2d array
-    * @param {object} value to look for in values
-    * @param {objct[][]} values to look for value in
-    * @return {boolean} if(value is in vlaues)
-    */
+   * values from a range are 2d arrays, this function checks if item appears in 2d array
+   * @param {object} value to look for in values
+   * @param {objct[][]} values to look for value in. Used on 2d array returned from gas.Spreadhsheet.Range.getValues().
+   * @return {boolean} if(value is in vlaues)
+   */
     Utils.valueInValues = function (value, values) {
-        Logger.log("Value: " + value + " values: " + values);
         for (var i = 0; i < values.length; i++) {
             for (var y = 0; y < values[i].length; y++) {
                 if (values[i][y] == value) {
@@ -341,20 +411,6 @@ var Utils = /** @class */ (function () {
             }
         }
         return false;
-    };
-    /**
-     * Function wich returns id for a google drive file from url
-     *
-     * @param {string} url to return id from
-     * @return {string[]} returns id
-     */
-    Utils.getIdFromUrl = function (url) {
-        var id = url.match(/[-\w]{25,}$/);
-        if (id == null) {
-            return null;
-        }
-        Logger.log('url: ' + url + 'id' + id);
-        return id.join("");
     };
     return Utils;
 }());
@@ -369,6 +425,7 @@ var module = module || { exports: exports };
  */
 //import ss = GoogleAppsScript.Spreadsheet;
 //import gas = GoogleAppsScript;
+//import { createOnOpenTriggers, createUpdateTriggers } from "../_CRMsetup";
 var properties = PropertiesService.getScriptProperties();
 /**
 * PUT IN VARIABLES HERE:
@@ -392,50 +449,21 @@ var COPY_OLD_KEY_SPREADHSEET_ID = '';
 * Starts the copy of the CRM system
 */
 function startCopySystem() {
-    //TODO try/catch
     copySystem();
     createOnOpenTriggers();
-    createDailyUpdateTrigger();
+    createUpdateTriggers();
     /**
     * Copies all spreadsheets and changes properties of spreadsheets in the code
     */
     function copySystem() {
+        console.log("Copying CRM system");
         var parentFolder = DriveApp.getFolderById(COPY_DRIVE_FOLDER_ID);
         var crmMain = DriveApp.getFileById(COPY_OLD_CRM_MAIN_SPREADSHEET_ID).makeCopy("_CRM Main Copy", parentFolder);
         var key = DriveApp.getFileById(COPY_OLD_KEY_SPREADHSEET_ID).makeCopy("CRM Key Copy", parentFolder);
         // Set properties
         properties.setProperty('CRM_MAIN_SHEET_ID', crmMain.getId());
         properties.setProperty('KEY_SHEET_ID', key.getId());
-        Logger.log(properties.getProperties());
-    }
-    /**
-     * Creates onOpen-triggers for new spreadsheets in order to add the CRM-menu
-     */
-    function createOnOpenTriggers() {
-        try {
-            ScriptApp.newTrigger('createCRMMenu')
-                .forSpreadsheet(properties.getProperty('CRM_MAIN_SHEET_ID'))
-                .onOpen()
-                .create();
-            ScriptApp.newTrigger('createKeyMenu')
-                .forSpreadsheet(properties.getProperty('KEY_SHEET_ID'))
-                .onOpen()
-                .create();
-        }
-        catch (e) {
-            //TODO: Send mail with errors to service email. Must be easy to change service mail.
-            Logger.log(e.message + e.stack);
-        }
-    }
-    /*
-    * Creates trigger wich update system once a day
-    */
-    function createDailyUpdateTrigger() {
-        ScriptApp.newTrigger('updateEverything')
-            .timeBased()
-            .everyDays(1)
-            .atHour(0)
-            .create();
+        console.log("New properties are now: " + properties.getProperties());
     }
 }
 
@@ -487,6 +515,7 @@ var MeetingNotes = /** @class */ (function () {
      * Method for filling in actionables from previous meeting
      * @param actionables list of actionables 2d list to use googles function Range.setValues()
      * @param previousNotes Url to previous notes, links to previous meeting in upcoming meeting notes
+     * actionables has to be 2d array to use gas.Spreadsheet.Range.setValues().
      */
     MeetingNotes.prototype.fillActionables = function (actionables, previousNotes) {
         if (actionables == undefined || actionables.length <= 0) {
@@ -498,6 +527,7 @@ var MeetingNotes = /** @class */ (function () {
     /**
      * Method for getting actionables from previous meeting
      * @returns actionables as a 2d string list: string[row][column];
+     * Has to be 2d array to use gas.Spreadsheet.Range.setValues().
      */
     MeetingNotes.prototype.getActionables = function () {
         var STARTACTIONABLES = 1;
@@ -508,7 +538,7 @@ var MeetingNotes = /** @class */ (function () {
         var tables = body.getTables();
         var table = tables[tables.length - 1];
         if (table === undefined) {
-            Logger.log('No table of actionables found in document: %s.', this.doc.getName());
+            console.log('No table of actionables found in document:' + this.doc.getUrl());
             //Throw error
             return;
         }
@@ -578,7 +608,6 @@ var CandidateFolder = /** @class */ (function () {
     // This should not be here, but in a "all-candidate-folders"-folder
     CandidateFolder.getCandidateFolder = function (codeName) {
         var folderIter = CandidateFolder.allCandidatesFolder.getFoldersByName(codeName);
-        Logger.log("Candidate fodler: " + folderIter);
         var returnFolder;
         var folderCounter = 0;
         if (folderIter.hasNext()) {
@@ -590,12 +619,11 @@ var CandidateFolder = /** @class */ (function () {
             folderIter.next();
         }
         if (folderCounter > 1) {
-            Logger.log("There are multiple folders with candidate name: " + codeName + "Using first folder.");
+            console.log("There are multiple folders with candidate name: " + codeName + "Using first folder.");
         }
         else if (folderCounter === 0) {
-            Logger.log("No candidate folder with codename: " + codeName);
-            //TODO throw error
-            return null;
+            console.error("No candidate folder with codename: " + codeName);
+            throw new Error("No candidate folder with codename: " + codeName);
         }
         return returnFolder;
     };
@@ -656,8 +684,10 @@ var CandidateSheet = /** @class */ (function () {
         this.END_ACTIONABLES = { row: 39, column: 2, a1Notation: '' };
         this.START_EVALUATION_QUESTIONS = { row: 42, column: 2, a1Notation: 'B43' };
         this.START_EVALUATION_ANSWERS = { row: 42, column: 5, a1Notation: 'E43' };
+        this.BACKGROUND_COLOR_EVALUATION = '#f3f3f3';
         this.START_ONBOARDING_QUESTIONS = { row: 51, column: 2, a1Notation: 'B55' };
         this.START_ONBOARDING_ANSWERS = { row: 51, column: 5, a1Notation: 'E55' };
+        this.BACKGROUND_COLOR_ONBOARDING = '#f3f3f3';
         this.sheet = sheet;
     }
     Object.defineProperty(CandidateSheet, "templateSheet", {
@@ -686,15 +716,11 @@ var CandidateSheet = /** @class */ (function () {
      * @param codeName
      */
     CandidateSheet.newCandidate = function (codeName) {
-        Logger.log("Copy template, add sheet");
         var sheet = this.templateSheet.copyTo(this.parentSheet).setName(codeName);
-        Logger.log("Create new CandidateSheetObject");
         var newSheet = new CandidateSheet(sheet);
         // Set code name
-        Logger.log("Set codename");
         newSheet.sheet.getRange(1, 2).setValue(codeName);
         // Link to candidate folder
-        Logger.log("Link to candidate folder");
         newSheet.sheet.getRange(2, 5).setValue("=HYPERLINK(\"" + CandidateFolder.getCandidateFolder(codeName).getUrl() + "\", \"Candidate folder\")");
         return newSheet;
     };
@@ -702,9 +728,9 @@ var CandidateSheet = /** @class */ (function () {
      * Adds previous and upcoming meeting to candidate sheet, and actionables from last meeting.
      * Also adds actionables from previous meeting to upcoming meeting if there is a meeting on that day.
      * @param meetingInfo interface containing info about meetings from meetings sheet
+     * Actionables has to be 2d array to use gas.Spreadsheet.Range.setValues().
      */
     CandidateSheet.prototype.addMeetingInfo = function (meetingInfo) {
-        Logger.log("Add meeting info");
         var previousMeetingNotesRange = this.sheet.getRange(this.PREVIOUS_MEETING_NOTES.a1Notation);
         var previousMeetingDateRange = this.sheet.getRange(this.PREVIOUS_MEETING_DATE.a1Notation);
         var upcomingMeetingNotesRange = this.sheet.getRange(this.UPCOMING_MEETING_NOTES.a1Notation);
@@ -714,7 +740,6 @@ var CandidateSheet = /** @class */ (function () {
         var todaysDate = new Date();
         var actionables;
         if (meetingInfo.previousMeetingDate == undefined || meetingInfo.previousMeetingDate.toDateString() == earliestDate.toDateString()) {
-            Logger.log("No previous meeting");
             previousMeetingNotesRange.setValue("Notes previous meeting");
             previousMeetingDateRange.setValue("No previous meetings");
         }
@@ -733,11 +758,7 @@ var CandidateSheet = /** @class */ (function () {
             this.clearActionables();
             this.fillActionables(actionables);
         }
-        Logger.log("Upcoming meeting HERE: " + meetingInfo.upcomingMeetingDate);
-        Logger.log("Previous meeting HERE: " + meetingInfo.previousMeetingDate);
-        Logger.log("Upcoming to string HERE: " + meetingInfo.upcomingMeetingDate.toDateString() + " Latest: " + latestDate.toDateString());
         if (meetingInfo.upcomingMeetingDate == undefined || meetingInfo.upcomingMeetingDate.toDateString() == latestDate.toDateString()) {
-            Logger.log("No next meeting");
             upcomingMeetingNotesRange.setValue("Notes next meeting");
             upcomingMeetingDateRange.setValue("No planned meetings");
         }
@@ -748,11 +769,8 @@ var CandidateSheet = /** @class */ (function () {
             upcomingMeetingNotesRange.setFormula("=HYPERLINK(\"" + meetingInfo.upcomingMeetingNotes + "\", \"Notes next meeting\")");
             upcomingMeetingDateRange.setNumberFormat("d/m/yyyy").setValue(meetingInfo.upcomingMeetingDate);
         }
-        Logger.log("prevNotes: " + meetingInfo.previousMeetingNotes);
-        Logger.log("upcomingNotes: " + meetingInfo.upcomingMeetingNotes);
         var yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
-        Logger.log("Today: " + todaysDate + "Yesterday: " + yesterday);
         if (meetingInfo.upcomingMeetingDate.toDateString() === todaysDate.toDateString() && meetingInfo.previousMeetingNotes != undefined) {
             var upcomingNotes = new MeetingNotes(DocumentApp.openById(Utils.getIdFromUrl(meetingInfo.upcomingMeetingNotes)));
             if (Utils.getIdFromUrl(meetingInfo.previousMeetingNotes) != null && (meetingInfo.previousMeetingNotes.indexOf('document') >= 0 || meetingInfo.previousMeetingNotes.indexOf('docs') >= 0)) {
@@ -774,7 +792,7 @@ var CandidateSheet = /** @class */ (function () {
     };
     /**
      * Adds actionables to candidate sheet
-     * @param actionables
+     * @param actionables Has to be 2d array to use gas.Spreadsheet.Range.setValues().
      */
     CandidateSheet.prototype.fillActionables = function (actionables) {
         if (actionables == undefined || actionables.length <= 0) {
@@ -784,7 +802,6 @@ var CandidateSheet = /** @class */ (function () {
         if (actionables.length > lengthActionablesRange) {
             actionables[lengthActionablesRange - 1][0] = 'More actionables found, see notes from previous meeting';
             actionables.length = lengthActionablesRange;
-            Logger.log("Length actionables: " + actionables.length + " Length range: " + lengthActionablesRange);
         }
         var actionablesRange = this.sheet.getRange(this.START_ACTIONABLES.row, this.START_ACTIONABLES.column, actionables.length);
         actionablesRange.setValues(actionables);
@@ -799,13 +816,13 @@ var CandidateSheet = /** @class */ (function () {
         }
         var length = formAnswers.answers.length;
         var rowsNeeded;
-        var questionsRange = this.sheet.getRange(this.START_EVALUATION_QUESTIONS.row, this.START_EVALUATION_QUESTIONS.column, length, 2);
-        var answersRange = this.sheet.getRange(this.START_EVALUATION_ANSWERS.row, this.START_EVALUATION_ANSWERS.column, length, 2);
-        rowsNeeded = Utils.checkSpaceColor(answersRange);
-        Logger.log("Rows needed: " + rowsNeeded);
+        var questionsRange = this.sheet.getRange(this.START_EVALUATION_QUESTIONS.row, this.START_EVALUATION_QUESTIONS.column, length);
+        var answersRange = this.sheet.getRange(this.START_EVALUATION_ANSWERS.row, this.START_EVALUATION_ANSWERS.column, length);
+        rowsNeeded = Utils.checkSpaceColor(answersRange, this.BACKGROUND_COLOR_EVALUATION);
         if (rowsNeeded > 0) {
+            console.log("Added %d new rows", rowsNeeded);
             this.sheet.insertRows(this.START_EVALUATION_ANSWERS.row, rowsNeeded);
-            //TODO bruke offset her isteden
+            //TODO use offset here instead
         }
         questionsRange.setValues(formAnswers.questions);
         answersRange.setValues(formAnswers.answers);
@@ -819,15 +836,17 @@ var CandidateSheet = /** @class */ (function () {
         if (formAnswers == null) {
             return;
         }
-        var length = formAnswers.answers.length;
+        var lengthAnswers = formAnswers.answers.length;
         var rowsNeeded;
-        var questionsRange = this.sheet.getRange(this.START_ONBOARDING_QUESTIONS.row, this.START_ONBOARDING_QUESTIONS.column, length, 2);
-        var answersRange = this.sheet.getRange(this.START_ONBOARDING_ANSWERS.row, this.START_ONBOARDING_ANSWERS.column, length, 2);
-        rowsNeeded = Utils.checkSpaceColor(answersRange);
-        Logger.log("Rows needed: " + rowsNeeded);
+        var questionsRange = this.sheet.getRange(this.START_ONBOARDING_QUESTIONS.row, this.START_ONBOARDING_QUESTIONS.column, lengthAnswers);
+        var answersRange = this.sheet.getRange(this.START_ONBOARDING_ANSWERS.row, this.START_ONBOARDING_ANSWERS.column, lengthAnswers);
+        questionsRange.clearContent();
+        answersRange.clearContent();
+        rowsNeeded = Utils.checkSpaceColor(answersRange, this.BACKGROUND_COLOR_ONBOARDING);
         if (rowsNeeded > 0) {
+            console.log("Added %d new rows", rowsNeeded);
             this.sheet.insertRows(this.START_ONBOARDING_ANSWERS.row, rowsNeeded);
-            //TODO bruke offset her isteden
+            //TODO use offset here instead
         }
         questionsRange.setValues(formAnswers.questions);
         answersRange.setValues(formAnswers.answers);
@@ -836,11 +855,11 @@ var CandidateSheet = /** @class */ (function () {
      * @returns the id of a candidate sheet, more on sheet ID: https://developers.google.com/sheets/api/guides/concepts
      */
     CandidateSheet.prototype.getId = function () {
-        Logger.log(this.sheet.getSheetId());
         return this.sheet.getSheetId();
     };
     /**
-     * @returns all information in a candidate sheet, this the the information that is copied to Metrics Historical Data
+     * @returns all information in a candidate sheet, this the the information that is copied to Metrics Historical Data.
+     * Has to be 2d array to use gas.Spreadsheet.Range.setValues() later.
      */
     CandidateSheet.prototype.getSnapshot = function () {
         var everything = [[]];
@@ -875,51 +894,36 @@ var CandidateSheet = /** @class */ (function () {
         return everything;
     };
     /**
-     * @returns a list with all formulas for the metrics sheet, so the metricssheet is linked to all candidate sheets
+     * @returns a list with all formulas for the metrics sheet, so the metricssheet is linked to all candidate sheets.
+     * Has to be 2d array to use gas.Spreadsheet.Range.setValues().
      */
     CandidateSheet.prototype.getFormulasMetrics = function () {
         var metrics = [[]];
         var counter = 0;
         var codeName = this.codeName;
         var id = this.getId();
-        metrics[0][counter] = "=HYPERLINK(\"#gid=" + id + "\", \"" + codeName + "\")";
-        counter++;
-        metrics[0][counter] = "=HYPERLINK(\"" + CandidateFolder.getCandidateFolder(codeName).getUrl() + "\", \"Candidate folder\")";
-        counter++;
-        metrics[0][counter] = "='" + codeName + "'!" + this.ACTIVE_INACTIVE.a1Notation;
-        counter++;
-        metrics[0][counter] = "='" + codeName + "'!" + this.CANDIDATE_LEVEL.a1Notation;
-        counter++;
-        metrics[0][counter] = "='" + codeName + "'!" + this.CASE_STUDY.a1Notation;
-        counter++;
+        metrics[0][counter++] = "=HYPERLINK(\"#gid=" + id + "\", \"" + codeName + "\")";
+        metrics[0][counter++] = "=HYPERLINK(\"" + CandidateFolder.getCandidateFolder(codeName).getUrl() + "\", \"Candidate folder\")";
+        metrics[0][counter++] = "='" + codeName + "'!" + this.ACTIVE_INACTIVE.a1Notation;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.CANDIDATE_LEVEL.a1Notation;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.CASE_STUDY.a1Notation;
         // MEETINGS
         //rowMetric[0][4].setNumberFormat("d/m/yyyy");
         //rowMetrichistorical[0][4].setNumberFormat("d/m/yyyy");
-        metrics[0][counter] = "='" + codeName + "'!" + this.PREVIOUS_MEETING_DATE.a1Notation;
-        counter++;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.PREVIOUS_MEETING_DATE.a1Notation;
         //rowMetric[0][5].setNumberFormat("d/m/yyyy");
         //rowMetrichistorical[0][5].setNumberFormat("d/m/yyyy");
-        metrics[0][counter] = "='" + codeName + "'!" + this.UPCOMING_MEETING_DATE.a1Notation;
-        counter++;
-        metrics[0][counter] = "='" + codeName + "'!" + this.NUMBER_COMPLETED_MEETINGS.a1Notation;
-        counter++;
-        metrics[0][counter] = "='" + codeName + "'!" + this.DAYS_SINCE_PREVIOUS_MEETING.a1Notation;
-        counter++;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.UPCOMING_MEETING_DATE.a1Notation;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.NUMBER_COMPLETED_MEETINGS.a1Notation;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.DAYS_SINCE_PREVIOUS_MEETING.a1Notation;
         // MALI MODEL
-        metrics[0][counter] = "='" + codeName + "'!" + this.CLOSENESS.a1Notation;
-        counter++;
-        metrics[0][counter] = "='" + codeName + "'!" + this.RESOURCES.a1Notation;
-        counter++;
-        metrics[0][counter] = "='" + codeName + "'!" + this.DEDICATION.a1Notation;
-        counter++;
-        metrics[0][counter] = "='" + codeName + "'!" + this.REALISATION.a1Notation;
-        counter++;
-        metrics[0][counter] = "='" + codeName + "'!" + this.RESULT.a1Notation;
-        counter++;
-        metrics[0][counter] = "='" + codeName + "'!" + this.STAGNATION_STATUS.a1Notation;
-        counter++;
-        metrics[0][counter] = "='" + codeName + "'!" + this.LAST_UPDATED_MALI.a1Notation;
-        counter++;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.CLOSENESS.a1Notation;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.RESOURCES.a1Notation;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.DEDICATION.a1Notation;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.REALISATION.a1Notation;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.RESULT.a1Notation;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.STAGNATION_STATUS.a1Notation;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.LAST_UPDATED_MALI.a1Notation;
         return metrics;
     };
     /**
@@ -927,6 +931,13 @@ var CandidateSheet = /** @class */ (function () {
      */
     CandidateSheet.prototype.getUrl = function () {
         return MainSpreadsheet.getUrl() + "#gid=" + this.getId();
+    };
+    CandidateSheet.prototype.hideSheet = function () {
+        this.sheet.hideSheet();
+        return this.sheet;
+    };
+    CandidateSheet.prototype.isSheetHidden = function () {
+        return this.sheet.isSheetHidden();
     };
     return CandidateSheet;
 }());
@@ -952,9 +963,9 @@ var DashboardHistoricalSheet = /** @class */ (function () {
     /**
      * Add snapshot from dahsboard to metrics historical data
      * @param snapshot a list of all values in the dashboard
+     * Snapshot has to be 2d array to use gas.Spreadsheet.Range.setValues().
      */
     DashboardHistoricalSheet.addSnapshot = function (snapshot) {
-        Logger.log("Adding snapshot to Dashboard Historical Data Sheet");
         var inputRow = this.sheet.getLastRow() + 1;
         this.sheet.getRange(inputRow, this.START).setValue(new Date());
         var range = this.sheet.getRange(inputRow, this.START + 1, 1, snapshot[0].length);
@@ -984,20 +995,27 @@ var DashboardSheet = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    DashboardSheet.fillNextMeetings = function (nextMeetings) {
+        var nextMeetingsRangeLength = this.NEXT_MEETINGS_END.row - this.NEXT_MEETINGS_START.row + 1;
+        if (nextMeetings.length > nextMeetingsRangeLength) {
+            return;
+        }
+        var range = this.sheet.getRange(this.NEXT_MEETINGS_START.row, this.NEXT_MEETINGS_START.column, nextMeetings.length, 2);
+        range.setValues(nextMeetings);
+    };
     /**
      * Takes a snapshot of all values in dashboard
      * @returns a 2d list to make it easy to use googles method Range.setValues()
      */
     DashboardSheet.getSnapshot = function () {
-        Logger.log("Kall i dahsboard:" + MainSpreadsheet);
         var snapshot = [[]];
         var counter = 0;
         var allData = this.sheet.getDataRange().getValues();
         snapshot[0][counter++] = allData[this.MEETINGS_TOTAL.row - 1][this.MEETINGS_TOTAL.column - 1];
         snapshot[0][counter++] = allData[this.MEETINGS_LAST_YEAR.row - 1][this.MEETINGS_LAST_YEAR.column - 1];
+        snapshot[0][counter++] = allData[this.MEETINGS_THIS_YEAR.row - 1][this.MEETINGS_THIS_YEAR.column - 1];
         snapshot[0][counter++] = allData[this.MEETINGS_LAST_THIRTY.row - 1][this.MEETINGS_LAST_THIRTY.column - 1];
         snapshot[0][counter++] = allData[this.MEETINGS_DAYS_SINCE_PREVIOUS.row - 1][this.MEETINGS_DAYS_SINCE_PREVIOUS.column - 1];
-        snapshot[0][counter++] = allData[this.MEETINGS_AVARAGE_DAYS_SINCE_PREVIOUS.row - 1][this.MEETINGS_AVARAGE_DAYS_SINCE_PREVIOUS.column - 1];
         snapshot[0][counter++] = allData[this.MALI_THREE_FACTOR_AVARAGE.row - 1][this.MALI_THREE_FACTOR_AVARAGE.column - 1];
         snapshot[0][counter++] = allData[this.MALI_NUMBER_OF_GREEN.row - 1][this.MALI_NUMBER_OF_GREEN.column - 1];
         snapshot[0][counter++] = allData[this.MALI_NUMBER_OF_YELLOW.row - 1][this.MALI_NUMBER_OF_YELLOW.column - 1];
@@ -1016,7 +1034,6 @@ var DashboardSheet = /** @class */ (function () {
     DashboardSheet.MEETINGS_THIS_YEAR = { row: 6, column: 3, a1Notation: 'C6' };
     DashboardSheet.MEETINGS_LAST_THIRTY = { row: 7, column: 3, a1Notation: 'C7' };
     DashboardSheet.MEETINGS_DAYS_SINCE_PREVIOUS = { row: 8, column: 3, a1Notation: 'C8' };
-    DashboardSheet.MEETINGS_AVARAGE_DAYS_SINCE_PREVIOUS = { row: 9, column: 3, a1Notation: 'C9' };
     DashboardSheet.MALI_THREE_FACTOR_AVARAGE = { row: 4, column: 6, a1Notation: 'F4' };
     DashboardSheet.MALI_NUMBER_OF_GREEN = { row: 5, column: 6, a1Notation: 'F5' };
     DashboardSheet.MALI_NUMBER_OF_YELLOW = { row: 6, column: 6, a1Notation: 'F6' };
@@ -1028,6 +1045,8 @@ var DashboardSheet = /** @class */ (function () {
     DashboardSheet.STORY_SUCCES_USED = { row: 16, column: 6, a1Notation: 'F16' };
     DashboardSheet.STORY_CASE_STUDY_POTENTIAL = { row: 17, column: 6, a1Notation: 'F17' };
     DashboardSheet.STORY_SUCCES_POTENTIAL = { row: 18, column: 6, a1Notation: 'F18' };
+    DashboardSheet.NEXT_MEETINGS_START = { row: 12, column: 2, a1Notation: 'B12' };
+    DashboardSheet.NEXT_MEETINGS_END = { row: 16, column: 2, a1Notation: 'B16' };
     return DashboardSheet;
 }());
 exports.DashboardSheet = DashboardSheet;
@@ -1058,28 +1077,26 @@ var EvaluationFormSheet = /** @class */ (function () {
      */
     EvaluationFormSheet.getAnswers = function (codeName) {
         if (this.sheet == null) {
-            throw new Error("Can't find sheet with name " + this.nameOfSheet + "\nPlease change the name of the correct sheet, or change the name of the sheet in the code\nIf you do not have an onboarding form sheet remove the function call.");
+            throw new Error("Can't find sheet in Key Spreadsheet with name " +
+                this.nameOfSheet +
+                ". Please change the name of the correct sheet, or change the name of the sheet in the code. If you do not have an evaluation form sheet remove the function call.");
         }
         var foundCodeName = false;
-        var formAnswers = { answers: [[]], questions: [[]] };
+        var formAnswers = { answers: [], questions: [] };
         var allDataForm = this.sheet.getDataRange().getValues();
-        Logger.log("Denne printer");
-        Logger.log("Length allDataForm: " + allDataForm.length);
         for (var i = 0; i < allDataForm.length; i++) {
-            if (String(allDataForm[i][this.CODENAMES.column - 1]).localeCompare(codeName) > 0) {
+            if (String(allDataForm[i][this.CODENAMES.column - 1]).localeCompare(codeName) === 0) {
                 foundCodeName = true;
-                Logger.log("Length allDataForm[i]: " + allDataForm.length);
                 for (var y = 0; y < allDataForm[i].length; y++) {
-                    formAnswers.answers[y][0] = allDataForm[0][y + 2];
-                    formAnswers.questions[y][0] = allDataForm[i][y + 2];
+                    formAnswers.answers.push([allDataForm[0][y + 2]]);
+                    formAnswers.questions.push([allDataForm[i][y + 2]]);
                 }
             }
         }
         if (!foundCodeName) {
-            Logger.log("Can't find matching code name for user in answers from form\nCode name: " + codeName);
+            console.log("Could not find code name %s in evaluationsform", codeName);
             return null;
         }
-        Logger.log("Answers: " + formAnswers);
         return formAnswers;
     };
     EvaluationFormSheet.nameOfSheet = 'Evaluation Form';
@@ -1117,16 +1134,12 @@ var KeySheet = /** @class */ (function () {
         for (var i = 0; i < allDataKey.length; i++) {
             if (String(allDataKey[i][this.CODENAMES.column - 1]) == codeName) {
                 email = allDataKey[i][this.EMAIL.column - 1];
-                Logger.log("Found codeName" + codeName + "in keySheet." + "email: " + email);
-            }
-            else {
-                Logger.log(codeName + "not found in key sheet");
             }
         }
         return String(email);
     };
     /**
-     * @returns {string[][]} all codeNames wich are not hyperlinks, this should be all the new candidates wich havn't been added to the system yet.
+     * @returns {string[]} all codeNames wich are not hyperlinks, this should be all the new candidates wich havn't been added to the system yet.
      */
     KeySheet.getNewCandidates = function () {
         var codeNamesRange = this.sheet.getRange(this.CODENAMES.row, this.CODENAMES.column, this.sheet.getLastRow());
@@ -1139,12 +1152,11 @@ var KeySheet = /** @class */ (function () {
             if (!cell.isBlank() && !Utils.isHyperlink(cell)) {
                 var codeName = cell.getValue();
                 if (Utils.isString(codeName)) {
-                    Logger.log('Found code name: %s', codeName);
+                    console.log('Found code name: %s', codeName);
                     codeNames.push(String(codeName));
                 }
                 else {
-                    Logger.log('Cell which is neither blank nor hyperlink found, but value: %s is not string', codeName);
-                    //TODO Throw error
+                    console.log('Cell which is neither blank nor hyperlink found, but value: %s is not string', codeName);
                 }
             }
         }
@@ -1161,10 +1173,8 @@ var KeySheet = /** @class */ (function () {
         var codeName;
         var url;
         for (var i = 0; i < lastRow; i++) {
-            Logger.log("Last row: " + lastRow + "i: " + i);
             cell = codeNamesRange.getCell(i + 1, 1);
             codeName = cell.getValue();
-            Logger.log("Codename keysheet: " + codeName);
             if (!cell.isBlank() && !Utils.isHyperlink(cell) && (updatedCandidates.indexOf(codeName) > -1)) {
                 url = MainSpreadsheet.getCandidateSheet(codeName).getUrl();
                 cell.setValue("=HYPERLINK(\"" + url + "\", \"" + codeName + "\")");
@@ -1241,17 +1251,17 @@ exports.MainSpreadsheet = MainSpreadsheet;
 var exports = exports || {};
 var module = module || { exports: exports };
 //import gas = GoogleAppsScript;
-//import{ MeetingInfo, Utils } from '../utils';
-//import { MainSpreadsheet } from './MainSpreadsheet';
-//import { CandidateSheet } from './CandidateSheet';
-//import { MeetingNotes } from '../documents/documents';
+//import { MeetingInfo, Utils, ElementPositionSheet } from "../utils";
+//import { MainSpreadsheet } from "./MainSpreadsheet";
+//import { CandidateSheet } from "./CandidateSheet";
+//import { MeetingNotes } from "../documents/documents";
 var properties = PropertiesService.getScriptProperties();
 var MeetingsSheet = /** @class */ (function () {
     function MeetingsSheet() {
     }
     Object.defineProperty(MeetingsSheet, "sheet", {
         get: function () {
-            return MainSpreadsheet.getSheet('Meetings Historical Data');
+            return MainSpreadsheet.getSheet("Meetings Historical Data");
         },
         enumerable: true,
         configurable: true
@@ -1261,16 +1271,23 @@ var MeetingsSheet = /** @class */ (function () {
      * @param snapshot snapshot from candidates sheet
      * @param date date of meeting
      * @param urlNotes url to notes
+     * Array snapshot has to be 2d array to use gas.Spreadsheet.Range.setValues().
      */
     MeetingsSheet.addMeeting = function (snapshot, date, urlNotes) {
         var inputRow = this.sheet.getLastRow() + 1;
         this.sheet.getRange(inputRow, 4, 1, snapshot[0].length).setValues(snapshot);
-        this.sheet.getRange(inputRow, 2).setValue(date).setNumberFormat("d/m/yyyy");
-        this.sheet.getRange(inputRow, 3).setValue(urlNotes);
+        this.sheet
+            .getRange(inputRow, 2)
+            .setValue(date)
+            .setNumberFormat("d/m/yyyy");
+        this.sheet
+            .getRange(inputRow, 3)
+            .setValue(urlNotes);
     };
     /**
      * @param codeName
      * @returns list of all meetings of given candidate
+     * Array meetings has to be 2d array to use gas.Spreadsheet.Range.setValues().
      */
     MeetingsSheet.getCandidateMeetings = function (codeName) {
         var meetingRange = this.sheet.getRange(this.START_ROW, this.START_COLUMN, this.sheet.getLastRow(), this.LAST_COLUMN_MEETING_INFO);
@@ -1278,9 +1295,8 @@ var MeetingsSheet = /** @class */ (function () {
         var meetings = [];
         for (var y = 0; y < meetingInfo.length; y++) {
             if (String(meetingInfo[y][2]) == codeName) {
-                Logger.log("codeName er korrekt!" + meetingInfo[y]);
                 meetings.push(meetingInfo[y]);
-                Logger.log("MeetingRow added: " + meetingInfo[y]);
+                console.log("MeetingRow added: " + meetingInfo[y]);
             }
         }
         return meetings;
@@ -1289,6 +1305,7 @@ var MeetingsSheet = /** @class */ (function () {
      *
      * @param codeName
      * @returns previous and upcoming meeting for given candidate stored in the interface MeetingInfo from ./../utils.ts
+     * Array meetings has to be 2d array to use gas.Spreadsheet.Range.setValues().
      */
     MeetingsSheet.getMeetingInfo = function (codeName) {
         var earliestDate = new Date("1970/01/01");
@@ -1296,14 +1313,13 @@ var MeetingsSheet = /** @class */ (function () {
         var latestDate = new Date("2050/01/01");
         var upcomingMeeting = latestDate;
         var todaysDate = new Date();
+        console.log("Todays date: " + todaysDate);
         var previousMeetingNotes;
         var upcomingMeetingNotes;
         var meetings = this.getCandidateMeetings(codeName);
         var meetingInfo;
         for (var y = 0; y < meetings.length; y++) {
             var meetingDate = meetings[y][0];
-            Logger.log("meetingDate: " + meetingDate);
-            Logger.log("Notes: " + meetings[y][1]);
             // Check if a meeting is today, but is already finished, assumes a meeting is finished if notes has actionables.
             // If todays meeting does not has actionables it is an umpcoming meeting.
             var actionables = void 0;
@@ -1313,11 +1329,14 @@ var MeetingsSheet = /** @class */ (function () {
             else {
                 actionables = undefined;
             }
-            if (meetingDate.toDateString() === todaysDate.toDateString() && actionables != undefined && actionables.length > 0) {
+            if (meetingDate.toDateString() === todaysDate.toDateString() &&
+                actionables != undefined &&
+                actionables.length > 0) {
                 previousMeeting = meetingDate;
                 previousMeetingNotes = String(meetings[y][1]);
             }
-            else if ((meetingDate >= todaysDate && meetingDate < upcomingMeeting) || meetingDate.toDateString() === todaysDate.toDateString()) {
+            else if ((meetingDate >= todaysDate && meetingDate < upcomingMeeting) ||
+                meetingDate.toDateString() === todaysDate.toDateString()) {
                 upcomingMeeting = meetingDate;
                 upcomingMeetingNotes = String(meetings[y][1]);
             }
@@ -1333,13 +1352,52 @@ var MeetingsSheet = /** @class */ (function () {
             previousMeetingDate: previousMeeting,
             previousMeetingNotes: previousMeetingNotes
         };
-        Logger.log("Previous: " + meetingInfo.previousMeetingDate + "notes: " + meetingInfo.previousMeetingNotes);
-        Logger.log("Upcoming: " + meetingInfo.upcomingMeetingDate + "notes: " + meetingInfo.upcomingMeetingNotes);
+        console.log("Previous: " +
+            meetingInfo.previousMeetingDate +
+            "notes: " +
+            meetingInfo.previousMeetingNotes);
+        console.log("Upcoming: " +
+            meetingInfo.upcomingMeetingDate +
+            "notes: " +
+            meetingInfo.upcomingMeetingNotes);
         return meetingInfo;
+    };
+    /**
+     * @param numberOfmeetings Number of meetings/rows to return
+     * @returns meetingsReturn: 2d list of next meetings and code name of candidates: [[next meeting, codeName][next next meeting, codeName]]
+     * Use gas.Spreadsheet.Range.setValues() to fill values in a sheet.
+     */
+    MeetingsSheet.getNextMeetings = function (numberOfmeetings) {
+        var meetingsReturn = [];
+        var meetings = this.sheet.getDataRange().getValues();
+        for (var i = this.START_ROW; i < meetings.length; i++) {
+            var date = new Date(String(meetings[i][this.MEETING_DATE_START.column - 1]));
+            var todaysdate = new Date();
+            var codeName = meetings[i][this.CODENAME_START.column - 1];
+            if (date > todaysdate ||
+                date.toDateString() == todaysdate.toDateString()) {
+                meetingsReturn.push([date, codeName]);
+            }
+        }
+        meetingsReturn.sort(Utils.compareDates);
+        if (meetingsReturn.length > numberOfmeetings) {
+            meetingsReturn.length = numberOfmeetings;
+        }
+        return meetingsReturn;
     };
     MeetingsSheet.START_ROW = 4;
     MeetingsSheet.START_COLUMN = 2;
     MeetingsSheet.LAST_COLUMN_MEETING_INFO = 19;
+    MeetingsSheet.MEETING_DATE_START = {
+        row: 4,
+        column: 2,
+        a1Notation: "B4"
+    };
+    MeetingsSheet.CODENAME_START = {
+        row: 4,
+        column: 4,
+        a1Notation: "D4"
+    };
     return MeetingsSheet;
 }());
 exports.MeetingsSheet = MeetingsSheet;
@@ -1365,6 +1423,7 @@ var MetricsHistoricalSheet = /** @class */ (function () {
     /**
      * Adds snapshot from candidate sheet to metrics historical
      * @param candidateInfo
+     * Has to be 2d array to use gas.Spreadsheet.Range.setValues().
      */
     MetricsHistoricalSheet.addCandidateInfo = function (candidateInfo) {
         var inputRow = this.sheet.getLastRow() + 1;
@@ -1400,7 +1459,7 @@ var MetricsSheet = /** @class */ (function () {
     });
     /**
      * Adds snapshot from candiate sheet to metrics sheet
-     * @param candidateInfo
+     * @param candidateInfo has to be 2d array to use gas.Spreadsheet.Range.setValues().
      */
     MetricsSheet.addCandidateInfo = function (candidateInfo) {
         var inputRow = this.sheet.getLastRow() + 1;
@@ -1410,19 +1469,15 @@ var MetricsSheet = /** @class */ (function () {
     /**
      *
      * @param codeName gets snapshot of information from candidate, used when meeting is added
+     * @returns snapshot of all info of given candidate, has to be 2d array to use gas.Spreadsheet.Range.setValues() later.
      */
     MetricsSheet.getCandidateSnapshot = function (codeName) {
-        Logger.log(codeName);
         var lastRow = this.sheet.getLastRow();
         var lastColumn = this.sheet.getLastColumn();
         var range = this.sheet.getRange(this.START_CODENAMES.row, this.START_CODENAMES.column, lastRow, lastColumn);
         var values = range.getValues();
         var formulas = range.getFormulas();
-        var codeNameHyperlink;
-        var snapshot;
         for (var i = 0; i < values.length; i++) {
-            Logger.log(values[i][0]);
-            Logger.log(values[i][0]);
             if (values[i][0] == codeName) {
                 values[i][0] = new String(formulas[i][0]);
                 return [values[i]];
@@ -1442,12 +1497,10 @@ var MetricsSheet = /** @class */ (function () {
             if (!cell.isBlank() && Utils.isHyperlink(cell)) {
                 var codeName = cell.getValue();
                 if (Utils.isString(codeName)) {
-                    Logger.log('Found code name: %s', codeName);
                     codeNames.push(String(codeName));
                 }
                 else {
-                    Logger.log('Cell which is neither blank nor hyperlink found, but value: %s is not string', codeName);
-                    //TODO Throw error
+                    console.log('Cell which is neither blank nor hyperlink found, but value: %s is not string', codeName);
                 }
             }
         }
@@ -1460,21 +1513,37 @@ var MetricsSheet = /** @class */ (function () {
         var dataRange = this.sheet.getDataRange();
         var lastRow = this.sheet.getLastRow();
         var codeNames = [];
-        Logger.log("Height: " + lastRow);
         for (var row = 1; row <= lastRow; row++) {
             // Cell coordinates are relative to range
             var codeNameCell = dataRange.getCell(row, this.START_CODENAMES.column);
             var activeInactice = String(dataRange.getCell(row, this.ACTIVE_INACTIVE.column).getValue());
-            Logger.log("Active inactive: " + activeInactice);
             if (!codeNameCell.isBlank() && Utils.isHyperlink(codeNameCell) && activeInactice == 'Active') {
                 var codeName = codeNameCell.getValue();
                 if (Utils.isString(codeName)) {
-                    Logger.log('Found code name: %s', codeName);
                     codeNames.push(String(codeName));
                 }
                 else {
-                    Logger.log('Cell which is neither blank nor hyperlink found, but value: %s is not string', codeName);
-                    //TODO Throw error
+                    console.log('Cell which is neither blank nor hyperlink found, but value: %s is not string', codeName);
+                }
+            }
+        }
+        return codeNames;
+    };
+    MetricsSheet.getInactiveCandidates = function () {
+        var dataRange = this.sheet.getDataRange();
+        var lastRow = this.sheet.getLastRow();
+        var codeNames = [];
+        for (var row = 1; row <= lastRow; row++) {
+            // Cell coordinates are relative to range
+            var codeNameCell = dataRange.getCell(row, this.START_CODENAMES.column);
+            var activeInactice = String(dataRange.getCell(row, this.ACTIVE_INACTIVE.column).getValue());
+            if (!codeNameCell.isBlank() && Utils.isHyperlink(codeNameCell) && activeInactice == 'Inactive') {
+                var codeName = codeNameCell.getValue();
+                if (Utils.isString(codeName)) {
+                    codeNames.push(String(codeName));
+                }
+                else {
+                    console.log('Cell which is neither blank nor hyperlink found, but value: %s is not string', codeName);
                 }
             }
         }
@@ -1504,7 +1573,7 @@ var OnboardingFormSheet = /** @class */ (function () {
     }
     Object.defineProperty(OnboardingFormSheet, "sheet", {
         get: function () {
-            return SpreadsheetApp.openById(properties.getProperty('KEY_SHEET_ID')).getSheetByName(OnboardingFormSheet.nameOfSheet);
+            return SpreadsheetApp.openById(properties.getProperty("KEY_SHEET_ID")).getSheetByName(OnboardingFormSheet.nameOfSheet);
         },
         enumerable: true,
         configurable: true
@@ -1515,37 +1584,47 @@ var OnboardingFormSheet = /** @class */ (function () {
      */
     OnboardingFormSheet.getAnswers = function (codeName) {
         if (this.sheet == null) {
-            Logger.log("error");
-            throw new Error("Can't find sheet with name " + this.nameOfSheet + "\nPlease change the name of the correct sheet, or change the name of the sheet in the code\nIf you do not have an onboarding form sheet remove the function call.");
+            throw new Error("Can't find sheet in Key spreadsheet with name " +
+                this.nameOfSheet +
+                "\nPlease change the name of the correct sheet, or change the name of the sheet in the code\nIf you do not have an onboarding form sheet remove the function call.");
         }
-        var foundCodeName = false;
+        var foundEmail = false;
         var allDataForm = this.sheet.getDataRange().getValues();
         var email = KeySheet.getEmail(codeName);
-        var formAnswers = { answers: [[]], questions: [[]] };
-        Logger.log("Email: " + email + "type: " + typeof (email));
+        var formAnswers = { answers: [], questions: [] };
+        console.log("length: " + allDataForm.length + " " + allDataForm);
         if (email == undefined) {
-            Logger.log("Can't find email for candidate in keys sheet\nCode name: " + codeName);
+            console.log("Can't find email for candidate in keys sheet\nCode name: " + codeName);
+            return;
         }
         for (var i = 0; i < allDataForm.length; i++) {
-            Logger.log("[i][2]: " + allDataForm[i][2]);
-            if (String(allDataForm[i][2]).localeCompare(codeName) > 0) {
-                foundCodeName = true;
+            if (String(allDataForm[i][2]).localeCompare(email) === 0) {
+                foundEmail = true;
                 for (var y = 0; y < allDataForm[i].length; y++) {
-                    formAnswers.answers[y][0] = allDataForm[0][y + 3];
-                    formAnswers.questions[y][0] = allDataForm[i][y + 3];
+                    formAnswers.answers.push([allDataForm[0][y + 3]]);
+                    formAnswers.questions.push([allDataForm[i][y + 3]]);
                 }
             }
         }
-        if (!foundCodeName) {
-            Logger.log("Can't find matching code name for user in answers from form\nCode name: " + codeName);
+        if (!foundEmail) {
+            console.log("Can't find matching email for user in answers from onboarding form\nCode name: " +
+                codeName);
             return null;
         }
         return formAnswers;
     };
-    OnboardingFormSheet.nameOfSheet = 'Onboarding Form';
-    OnboardingFormSheet.START = { row: 1, column: 1, a1Notation: 'A1' };
-    OnboardingFormSheet.CODENAMES = { row: 2, column: 2, a1Notation: 'B2' };
-    OnboardingFormSheet.EMAIL = { row: 2, column: 11, a1Notation: 'B11' };
+    OnboardingFormSheet.nameOfSheet = "Onboarding Form";
+    OnboardingFormSheet.START = { row: 1, column: 1, a1Notation: "A1" };
+    OnboardingFormSheet.CODENAMES = {
+        row: 2,
+        column: 2,
+        a1Notation: "B2"
+    };
+    OnboardingFormSheet.EMAIL = {
+        row: 2,
+        column: 11,
+        a1Notation: "B11"
+    };
     return OnboardingFormSheet;
 }());
 exports.OnboardingFormSheet = OnboardingFormSheet;

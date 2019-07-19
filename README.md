@@ -330,7 +330,7 @@ You do not have to change anything in the code.
 After doing this you should run the function copySystem(). This function will make a function of all spreadsheets and add the new sheets to the code. 
 This way the candidate is also deleted from the spreadsheets' version history. 
 
-### How can I change how often system is updated autmatically? 
+### How can I change how often the system is updated autmatically? 
 Open the code and click *Edit > Current project's triggers*
 Find the trigger for updateEverything() and you can now edit how often this is triggered.
 

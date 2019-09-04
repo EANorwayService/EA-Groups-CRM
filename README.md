@@ -20,7 +20,7 @@ The goal of this CRM system is to streamline 1-1 meetings. Key features of the s
 ### Versions
 There are currently two versions of this code. One in Google App Script and one in TypeScript. This folder contains the code in App Script which makes it easy to copy/paste code directly into Google App Script. See [Setup of CRM](#setupCRM) for tutorial. 
 
-Here is a [link](https://github.com/EANorgeService/CRMsetup) for the code in TypeScript, use this for local development and use [clasp](https://github.com/google/clasp/) to upload code to Google App Script. 
+Here is a [link](https://github.com/EANorwayService/CRM_setup_advanced) for the code in TypeScript, use this for local development and use [clasp](https://github.com/google/clasp/) to upload code to Google App Script. 
 
 
 ### Folder structure

@@ -103,7 +103,7 @@ This sheet saves historical information on all candidates. By automatically addi
 1. Access to a list of all your members, or another list including the people you want as candidates in you system. You can later choose who you want to include from the given list. From now on this list will be called the member list.
 
 ### Alternative 1: Local development
-If you don't want to change the code, or your not used to the terminal skip to the next section.
+If you don't want to change the code, or you are not familiar with using the terminal use alternative 2 instead.
 Do this if you want to change the code or you know the basics of using a terminal, else the easiest way is to copy/paste.
 To download the code for GitHub use [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 Use [clasp](https://github.com/google/clasp/) to uploade code to Google App Script. Clasp also makes it possible to write code in typescript. You have to enable API [here](https://script.google.com/home/usersettings) before you can use clasp.

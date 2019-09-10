@@ -10,17 +10,17 @@
 # About the CRM system <a name="aboutCRM"></a>
 
 This is a CRM system in Google App Script developed by Effective Altruism Norway.
-The goal of this CRM system is to streamline 1-1 meetings. Key features of the system:
+The goal of this CRM system is to streamline one-on-one meetings. Key features of the system:
 
 1. Uses spreadsheets and documents in Google Suite.
 1. Makes it easy to plan 1:1 meetings for career guiding etc.
 1. Makes it easy to adjust to your own needs.
 1. Let's you see how well you're succeeding at your metrics.
 
-### Versions
-There are currently two versions of this code. One in Google App Script and one in TypeScript. This folder contains the code in App Script which makes it easy to copy/paste code directly into Google App Script. See [Setup of CRM](#setupCRM) for tutorial. 
+### Choose your prefered version
+There are currently two versions of this code. One in Google App Script and a more advanced and customizable version in TypeScript. This folder contains the code in Google App Script which makes it easy to copy/paste code directly into Google App Script. See [Setup of CRM](#setupCRM) for tutorial. 
 
-Here is a [link](https://github.com/EANorwayService/CRM_setup_advanced) for the code in TypeScript, use this for local development and use [clasp](https://github.com/google/clasp/) to upload code to Google App Script. 
+Here is a [link](https://github.com/EANorwayService/CRM_setup_advanced) for the code in TypeScript, use this for easier customizability and local development. Use [clasp](https://github.com/google/clasp/) to upload code to Google App Script. 
 
 
 ### Folder structure

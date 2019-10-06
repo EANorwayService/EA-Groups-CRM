@@ -92,7 +92,7 @@ This sheet saves historical information on all candidates. By automatically addi
 ### Required for CRM system setup
 1. A Google account
 2. Access to the Google Drive Folder where you want to place your CRM system. <br/>
-3. A list names with (optional) contact info you want to import to your CRM system. We will call this "the member list" in this guide. You can start without any initial candidates, and add individuals only later. <br/>
+3. A list of names with (optional) contact info you want to import to your CRM system. We will call this "the member list" in this guide. You can also start without any initial candidates and add individuals later. <br/>
 
 ### Alternative 1: Local development
 If you don't want to edit the code, or you are not familiar with using the terminal use alternative 2 instead. Choose this alternative if you would like to add features, or for other reasons tweek the code. To download a fork of the code in GitHub use [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). Afterwards you should use [clasp](https://github.com/google/clasp/) to upload code to Google App Script. Clasp also makes it possible to write code in typescript. You have to enable API [here](https://script.google.com/home/usersettings) before you can use clasp. <br/>
@@ -291,6 +291,9 @@ Open the code and click *Edit > Current project's triggers*. Find the trigger fo
 ### What is case study/success story?
 The CRM system allows you to mark candidates as potential case studies or success stories. You can use case studies/success stories for reporting, testemonials or qualitative evaluation of your 1:1 conversations, for instence. <br/>
 
+### What is the three-factor model? 
+This is a model introduced by the Centre for Effective Altruism to get an overview of the candidates' levels of resources, dedication and realisation. You give a score for each candidate from 1-3 on these three factors, and can see aggregated and average scores in the Dashboard and Metrics tabs in the CRM Main. Send an email to post@effektivaltruisme.no for more information. <br/>
+
 ### Who should I contact if I have issues? 
 post@effektivaltruisme.no <br/>
 
@@ -298,7 +301,9 @@ post@effektivaltruisme.no <br/>
 # Extra <a name="extra"></a>
 
 ### Add a form to the CRM system
-EA Norway has a form candidates fill out before the first conversation and another form candidate fills out after each conversation. The CRM-system already has functions specific to these two forms and the functions can be copied and tweeked to work on other forms. <br/>
+EA Norway has an onboarding Google form that new candidates fill out before the first one-on-one, and an evaluation Google form that they fill out after each one-on-one that they have. It is possible to add such forms into the system, and get the answers from the forms in each candidate sheet <br/>
+
+The CRM-system already has functions specific for these forms and the functions can be fitted to other forms. Adding these forms are optional, and you can add any type of Google Form that you would like to get the answers from. <br/>
 
 #### Add Onboarding Form 
 1. Search for handleFillOnboardingForm() in the code file; and find the one with two slashes in front. <br/>

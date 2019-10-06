@@ -340,8 +340,8 @@ Find the trigger for weeklySnapshot() and you can now edit how often this is tri
 ### What is case study/success story?
 The CRM system allows you to mark candidates as potential case studies or success stories. Case studies and success stories are often used as metrics to measure the results of one-to-one conversations.
 
-### What is the mali-model? 
-A model used by EA Norway to map how well they know the candidate compared to their score on CEAs 3-factor model of resources, dedication and realisation. It is based on the assumption that the closer you are to a candidate, the easier it is to increase their resources, dedication and realisation. Send an email to post@effektivaltruisme.no for more information.
+### What is the three-factor model? 
+This is a model introduced by the Centre for Effective Altruism to get an overview of the candidates' levels of resources, dedication and realisation. You give a score for each candidate from 1-3 on these three factors, and can see aggregated and average scores in the Dashboard and Metrics tabs in the CRM Main. Send an email to post@effektivaltruisme.no for more information.
 
 ### Who should I contact if I have issues? 
 post@effektivaltruisme.no
@@ -351,8 +351,9 @@ post@effektivaltruisme.no
 # Extra <a name="extra"></a>
 
 ### Add a form to the CRM system
-EA Norway has one form candidates fill out before the first conversation and one form each candidate fills out after each conversation.
-The CRM-system already has functions specific for these forms and the functions can be fitted to other forms. 
+EA Norway has an onboarding Google form that new candidates fill out before the first one-on-one, and an evaluation Google form that they fill out after each one-on-one that they have. It is possible to add such forms into the system, and get the answers from the forms in each candidate sheet. 
+
+The CRM-system already has functions specific for these forms and the functions can be fitted to other forms. Adding these forms are optional, and you can add any type of Google Form that you would like to get the answers from.
 
 #### Add Onboarding Form 
 1. Search for handleFillOnboardingForm(); and find the one with two slashes in front.<br />

@@ -1,6 +1,6 @@
 # Table of content
-1. [About the CRM system](#aboutCRM)
 1. [Set up the CRM system](#setupCRM)
+1. [About the CRM system](#aboutCRM)
 1. [Use the CRM system](#useCRM)
 1. [Troubleshoot](#troubleshoot)
 1. [FAQ](#FAQ)

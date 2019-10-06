@@ -46,7 +46,7 @@ Open the following files from [GitHub](https://github.com/EANorgeService/CRMsetu
 After copying and pasting all code from GitHub to Google App Script the CRM-system can be set up in a destination folder on your Google Drive.
 
 ### Step 1: Enable Advanced Drive Service
-Do the following in the project you just made in ![Google App Script](script.google.com). Click **Resources > Advanced Google Services** scroll down to **Drive API** and enable it. <br/>
+Do the following in the project you just made in Google App Script: Click **Resources > Advanced Google Services** scroll down to **Drive API** and enable it. <br/>
 ![Advanced Google Services](images/advancedService.png)
 
 ### Step 2: Add file ID with list of initial candidates to CRMsetup.gs

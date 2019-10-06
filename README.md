@@ -1,5 +1,5 @@
 # Table of content
-1. [Set up the CRM system](#setupCRM)
+1. [CRM system setup](#setupCRM)
 1. [About the CRM system](#aboutCRM)
 1. [Use the CRM system](#useCRM)
 1. [Troubleshoot](#troubleshoot)
@@ -7,7 +7,7 @@
 1. [Extra](#extra)
 
 
-# CRM system Setup <a name="setupCRM"></a>
+# CRM system setup <a name="setupCRM"></a>
 
 ### Required for CRM system setup
 1. A Google account

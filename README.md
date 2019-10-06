@@ -91,7 +91,7 @@ This sheet saves historical information on all candidates. By automatically addi
 
 ### Required for CRM system setup
 1. A Google account
-2. Access to the Google Drive Folder where you want to place your CRM system. <br/>
+2. Access to the Google/Team Drive Folder where you want to place your CRM system. <br/>
 3. A list of names with (optional) contact info you want to import to your CRM system. We will call this "the member list" in this guide. You can also start without any initial candidates and add individuals later. <br/>
 
 ### Alternative 1: Local development

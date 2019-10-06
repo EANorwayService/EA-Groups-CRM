@@ -21,7 +21,7 @@ If you don't want to edit the code, or you are not familiar with using the termi
 If you haven't used a terminal before the easiest way to transfer the code to Google App Script is to copy/paste the code from GitHub to Google App Script. <br/>
 
 #### Create a new project on script.google.com
-Log in with your preferred Google account and go to ![Google App Script](script.google.com). <br/>
+Log in with your preferred Google account and go to [Google App Script](script.google.com). <br/>
 Create a new project by clicking "New script", and give the new project a descriptive name; for instance "CRMsystem" (name of file should _not_ contain spaces). <br/>
 ![How to make a new project](images/newProject.png) <br/>
 
@@ -138,11 +138,11 @@ This sheet makes it possible to give candidates code names so that you don't nee
 
 #### Evaluation Form 
 This sheet is specific for EA Norway and contains the answers from the meeting evaluation form. <br/>
-The evalutation form is not added by defailt, but you can add it by following the instructions [here](#extra). <br/>
+The evalutation form is not added by default, but you can add it by following the instructions [here](#extra). <br/>
 
 #### Onboarding Form 
 This sheet is specific for EA Norway and contains the answers from an onboarding form. <br/>
-The evalutation form is not added by defailt, but you can add it by following the instructions [here](#extra). <br/>
+The evalutation form is not added by default, but you can add it by following the instructions [here](#extra). <br/>
 
 ### CRM Main spreadsheet
 The CRM Main spreadsheet is the second, and most central spredsheet of the system. This will be the sheet you are using most often and it provides you with an overview of results from your 1:1 meetings. With some basic understanding of spreadsheets you can add your own metrics to track. <br/>

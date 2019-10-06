@@ -97,10 +97,8 @@ This sheet saves historical information on all candidates. By automatically addi
 # Set up the CRM system <a name="setupCRM"></a>
 
 ### Needed to set up CRM system
-1. Access to CRMsetup [folder](https://github.com/EANorgeService/CRMsetup) in GitHub.
-1. Access to CRMtemplates [folder](https://drive.google.com/drive/folders/1fcHDHTCHAwwFkLSWX1SwQ-gZExy5NBI5?usp=sharing) in Google Drive.
-1. Access to the Google Drive Folder where you want your CRM system.
-1. Access to a list of all your members, or another list including the people you want as candidates in you system. You can later choose who you want to include from the given list. From now on this list will be called the member list.
+1. Access to the Google/Team Drive Folder where you want your CRM system.
+1. Access to a Google Sheet with a list of the members you want to add as candidates in your CRM system. This can be a full member list, or a shorter list of potential candidates. From now on this list will be called the member list.
 
 ### Alternative 1: Local development
 If you don't want to change the code, or you are not familiar with using the terminal use alternative 2 instead.

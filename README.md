@@ -1,98 +1,10 @@
 # Table of content
-1. [About the CRM system](#aboutCRM)
 1. [Set up the CRM system](#setupCRM)
+1. [About the CRM system](#aboutCRM)
 1. [Use the CRM system](#useCRM)
 1. [Troubleshoot](#troubleshoot)
 1. [FAQ](#FAQ)
 1. [Extra](#extra)
-
-
-# About the CRM system <a name="aboutCRM"></a>
-
-This is a CRM system in Google App Script developed by Effective Altruism Norway.
-The goal of this CRM system is to streamline one-on-one meetings. Key features of the system:
-
-1. Uses spreadsheets and documents in Google Suite.
-1. Makes it easy to plan 1:1 meetings for career guiding etc.
-1. Makes it easy to adjust to your own needs.
-1. Let's you see how well you're succeeding at your metrics.
-
-### Choose your prefered version
-There are currently two versions of this code. One in Google App Script and a more advanced and customizable version in TypeScript. This folder contains the code in Google App Script which makes it easy to copy/paste code directly into Google App Script. See [Setup of CRM](#setupCRM) for tutorial. 
-
-Here is a [link](https://github.com/EANorwayService/CRM_setup_advanced) for the code in TypeScript, use this for easier customizability and local development. Use [clasp](https://github.com/google/clasp/) to upload code to Google App Script. 
-
-
-### Folder structure
-
-![Structure of folders](images/folderStructure.png) <br/>
-The CRM system consists of two spreadsheets, a folder with templates and a folder for each candidate. <br/>
-
-![Structure of candidate folder](images/folderStructureCandidates.png)
-Inside the folder "CRM Candidate Folders" there is one folder for each candidate. In this example the candidates have code names. <br/> 
-
-### Candidate folder
-
-![Candidate folder](images/folderStructureCandidateFolder.png) <br/> 
-The candidate folders have a folder with all meetings. There is a link to the candiate folder in the Metrics sheet and in the candidate sheets. 
-
-### Meetings folder
-![Folder with meeting notes for each candidate](images/meetingsFolder.png) <br/> 
-Notes for all meetings are saved in the meetings folder for each candidate. These notes are created automatically when a new meeting is planned.
-
-### Meeting notes
-![Notes for a planned meeting](images/newMeetingDoc.png)
-This is an example of how meeting notes can look. If you want to change template for meeting notes you can do it after the system has been set up, see insturctions in the [faq](#faq). 
-
-### Key spreadsheet
-This is one of two spreadsheets in the CRM system. This spreadsheet contains sensitive information of candidates and should be stored in a safe place where only people who need access have access to it. 
-It consists of the Key sheet, but other sheets with sensistive information like sheets linked to forms could also be stored here.
-EA Norway has two additional sheets here, "Onboarding Form" and "Evaluation Form". 
-
-#### Key sheet
-![The Key sheet](images/sheetKey.png)
-This sheet makes it possible to give candidates code names and not add their actual names to the system. However, if you don’t want to use code names, you can use their actual names in the code name column. 
-#### Evaluation Form 
-This sheet is specific for EA Norway and contains the answers from the meeting evaluation form. <br/>
-This sheet will not be added automatically to the system. There is a feature for adding information from this sheet to the candidate sheet, see [Extra](#extra) on how to add this feature.
-
-#### Onboarding Form 
-This sheet is specific for EA Norway and contains the answers from an onboarding form. <br/>
-This sheet will not be added automatically to the system. There is a feature for adding information from this sheet to the candidate sheet, see [Extra](#extra) on how to add this feature.
-
-
-### CRM Main spreadsheet
-The _CRM Main spreadsheet gives you an overview of results from your 1:1 meetings.
-With some basic understanding of spreadsheets you can add your own measurements of success.
-
-#### Dashboard
-![Dashboard sheet](images/sheetDashboard.png)
-This sheet contains aggregated data for all active candidates. All information is updated automatically when it is changed in the candidate sheets. 
-
-#### Metrics
-![Metrics sheet](images/sheetMetrics.png)
-This sheet contains information on all members, and can return data on only active candidates or all candidates. By using filters it is possible to only view data from active candidates. All information is added automatically when a candidate is added.
-
-#### Planner
-![Planner sheet](images/sheetPlanner.png)
-This sheet shows previous meeting and next planned meeting of each candidate, this information can also be found in the candidate sheets.
-
-#### Candidate sheets
-![Example of candidate sheet](images/sheetCandidates.png)
-Each candidate has their own candidate sheet, a new sheet is created every time a candidate is added. This is an example for a candidate sheet for a candidate with a code name. These sheets are automatically created when a candidate is added. 
-
-#### Dashboard Historical Data (hidden in spreadsheet)
-![Dashboard Historical Data](images/sheetDashboardHistoricalData.png)
-This sheet stores historical data from the Dashboard sheet, by adding a snapshot of all information from the Dashboard sheet once a week.
-
-#### Meetings Historical Data (hidden in spreadsheet)
-![Meetings sheet](images/sheetMeetingsHist.png)
-This sheet saves information from all planned meetings, updates automatically when a meeting is added. 
-
-#### Metrics Historical Data (hidden in spreadsheet)
-![Metrics Historical Date](images/sheetMetricsHistoricalData.png)
-This sheet saves historical information on all candidates. By automatically adding a snapshot of all information from each candidate sheet once a week.
-
 
 # Set up the CRM system <a name="setupCRM"></a>
 
@@ -211,6 +123,94 @@ If there are multiple crm-versions in the destination folder now be sure to keep
 
 ### step 6: Move Key Spreadsheet to a secure location
 If your system uses code names and you don't want everyone to have access to candidates real name you can move the key spreadsheet to a more secure location. Only people with access to this sheet can run the function "add candidates". Everyone who has access to the actual code can also access data from the Key spreadsheet. 
+
+
+# About the CRM system <a name="aboutCRM"></a>
+
+This is a CRM system in Google App Script developed by Effective Altruism Norway.
+The goal of this CRM system is to streamline one-on-one meetings. Key features of the system:
+
+1. Uses spreadsheets and documents in Google Suite.
+1. Makes it easy to plan 1:1 meetings for career guiding etc.
+1. Makes it easy to adjust to your own needs.
+1. Let's you see how well you're succeeding at your metrics.
+
+### Choose your prefered version
+There are currently two versions of this code. One in Google App Script and a more advanced and customizable version in TypeScript. This folder contains the code in Google App Script which makes it easy to copy/paste code directly into Google App Script. See [Setup of CRM](#setupCRM) for tutorial. 
+
+Here is a [link](https://github.com/EANorwayService/CRM_setup_advanced) for the code in TypeScript, use this for easier customizability and local development. Use [clasp](https://github.com/google/clasp/) to upload code to Google App Script. 
+
+
+### Folder structure
+
+![Structure of folders](images/folderStructure.png) <br/>
+The CRM system consists of two spreadsheets, a folder with templates and a folder for each candidate. <br/>
+
+![Structure of candidate folder](images/folderStructureCandidates.png)
+Inside the folder "CRM Candidate Folders" there is one folder for each candidate. In this example the candidates have code names. <br/> 
+
+### Candidate folder
+
+![Candidate folder](images/folderStructureCandidateFolder.png) <br/> 
+The candidate folders have a folder with all meetings. There is a link to the candiate folder in the Metrics sheet and in the candidate sheets. 
+
+### Meetings folder
+![Folder with meeting notes for each candidate](images/meetingsFolder.png) <br/> 
+Notes for all meetings are saved in the meetings folder for each candidate. These notes are created automatically when a new meeting is planned.
+
+### Meeting notes
+![Notes for a planned meeting](images/newMeetingDoc.png)
+This is an example of how meeting notes can look. If you want to change template for meeting notes you can do it after the system has been set up, see insturctions in the [faq](#faq). 
+
+### Key spreadsheet
+This is one of two spreadsheets in the CRM system. This spreadsheet contains sensitive information of candidates and should be stored in a safe place where only people who need access have access to it. 
+It consists of the Key sheet, but other sheets with sensistive information like sheets linked to forms could also be stored here.
+EA Norway has two additional sheets here, "Onboarding Form" and "Evaluation Form". 
+
+#### Key sheet
+![The Key sheet](images/sheetKey.png)
+This sheet makes it possible to give candidates code names and not add their actual names to the system. However, if you don’t want to use code names, you can use their actual names in the code name column. 
+#### Evaluation Form 
+This sheet is specific for EA Norway and contains the answers from the meeting evaluation form. <br/>
+This sheet will not be added automatically to the system. There is a feature for adding information from this sheet to the candidate sheet, see [Extra](#extra) on how to add this feature.
+
+#### Onboarding Form 
+This sheet is specific for EA Norway and contains the answers from an onboarding form. <br/>
+This sheet will not be added automatically to the system. There is a feature for adding information from this sheet to the candidate sheet, see [Extra](#extra) on how to add this feature.
+
+
+### CRM Main spreadsheet
+The _CRM Main spreadsheet gives you an overview of results from your 1:1 meetings.
+With some basic understanding of spreadsheets you can add your own measurements of success.
+
+#### Dashboard
+![Dashboard sheet](images/sheetDashboard.png)
+This sheet contains aggregated data for all active candidates. All information is updated automatically when it is changed in the candidate sheets. 
+
+#### Metrics
+![Metrics sheet](images/sheetMetrics.png)
+This sheet contains information on all members, and can return data on only active candidates or all candidates. By using filters it is possible to only view data from active candidates. All information is added automatically when a candidate is added.
+
+#### Planner
+![Planner sheet](images/sheetPlanner.png)
+This sheet shows previous meeting and next planned meeting of each candidate, this information can also be found in the candidate sheets.
+
+#### Candidate sheets
+![Example of candidate sheet](images/sheetCandidates.png)
+Each candidate has their own candidate sheet, a new sheet is created every time a candidate is added. This is an example for a candidate sheet for a candidate with a code name. These sheets are automatically created when a candidate is added. 
+
+#### Dashboard Historical Data (hidden in spreadsheet)
+![Dashboard Historical Data](images/sheetDashboardHistoricalData.png)
+This sheet stores historical data from the Dashboard sheet, by adding a snapshot of all information from the Dashboard sheet once a week.
+
+#### Meetings Historical Data (hidden in spreadsheet)
+![Meetings sheet](images/sheetMeetingsHist.png)
+This sheet saves information from all planned meetings, updates automatically when a meeting is added. 
+
+#### Metrics Historical Data (hidden in spreadsheet)
+![Metrics Historical Date](images/sheetMetricsHistoricalData.png)
+This sheet saves historical information on all candidates. By automatically adding a snapshot of all information from each candidate sheet once a week.
+
 
 # Use the CRM system <a name="useCRM"></a>
 

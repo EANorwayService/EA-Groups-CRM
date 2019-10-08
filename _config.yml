@@ -4,7 +4,7 @@ title: Welcome to the EA Groups CRM guide!
 # --- Navigation bar options --- #
 navbar-links:
   About Me: "Effective Altruisme Norway created and currently maintains this code."
-  Latest version: "https://script.google.com/d/1b3tvzY4FpxrJmMaEKILrUdpSjP0UWf_fjcAQxvPVpvO9fyy6rkT5728N/edit
+  Latest version: "https://script.google.com/d/1b3tvzY4FpxrJmMaEKILrUdpSjP0UWf_fjcAQxvPVpvO9fyy6rkT5728N/edit"
   Resources:
     - Learn markdown: "http://www.markdowntutorial.com/"
     - Semantic versioning: "https://semver.org/"

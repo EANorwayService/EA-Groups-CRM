@@ -1,31 +1,3 @@
 theme: jekyll-theme-minimal
 title: Welcome to the EA Groups CRM guide!
-email: post@effektivaltruisme.no
-
-# --- Navigation bar options --- #
-navbar-links:
-  About Me: "Effective Altruisme Norway created and currently maintains this code."
-  Latest version: "https://script.google.com/d/1b3tvzY4FpxrJmMaEKILrUdpSjP0UWf_fjcAQxvPVpvO9fyy6rkT5728N/edit"
-  Resources:
-    - Learn markdown: "http://www.markdowntutorial.com/"
-    - Semantic versioning: "https://semver.org/"
-  Contact EA Norway: "post@effektivaltruisme.no"
-
-avatar: "/images/favicon.ico"
-
-# --- Footer options --- #
-author:
-  name: Effective Altruism Norway
-
-social-network-links:
-  rss: true
-  email: "post@effektivaltruisme.no"
-  github: EANorwayService
-  twitter: EANorway
-  instagram: effektiv_altruisme
-
-# Select which share links to show in posts
-share-links-active:
-  twitter: true
-  facebook: true
-  linkedin: true
+logo: "/images/favicon.ico"

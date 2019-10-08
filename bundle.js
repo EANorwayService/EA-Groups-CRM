@@ -673,13 +673,13 @@ var CandidateSheet = /** @class */ (function () {
         this.UPCOMING_MEETING_NOTES = { row: 6, column: 6, a1Notation: 'E6' };
         this.NUMBER_COMPLETED_MEETINGS = { row: 7, column: 6, a1Notation: 'F7' };
         this.DAYS_SINCE_PREVIOUS_MEETING = { row: 8, column: 6, a1Notation: 'F8' };
-        this.CLOSENESS = { row: 11, column: 6, a1Notation: 'F11' };
+        //this.CLOSENESS = { row: 11, column: 6, a1Notation: 'F11' };
         this.RESOURCES = { row: 12, column: 6, a1Notation: 'F12' };
         this.DEDICATION = { row: 13, column: 6, a1Notation: 'F13' };
         this.REALISATION = { row: 14, column: 6, a1Notation: 'F14' };
         this.RESULT = { row: 15, column: 6, a1Notation: 'F15' };
         this.STAGNATION_STATUS = { row: 16, column: 6, a1Notation: 'F16' };
-        this.LAST_UPDATED_MALI = { row: 17, column: 6, a1Notation: 'F17' };
+        this.LAST_UPDATED_TFM = { row: 17, column: 6, a1Notation: 'F17' };
         this.START_ACTIONABLES = { row: 31, column: 2, a1Notation: 'B20' };
         this.END_ACTIONABLES = { row: 39, column: 2, a1Notation: '' };
         this.START_EVALUATION_QUESTIONS = { row: 42, column: 2, a1Notation: 'B43' };
@@ -883,14 +883,14 @@ var CandidateSheet = /** @class */ (function () {
         everything[0][counter++] = String(allData[this.UPCOMING_MEETING_NOTES.row - 1][this.UPCOMING_MEETING_NOTES.column - 1]);
         everything[0][counter++] = String(allData[this.NUMBER_COMPLETED_MEETINGS.row - 1][this.NUMBER_COMPLETED_MEETINGS.column - 1]);
         everything[0][counter++] = String(allData[this.DAYS_SINCE_PREVIOUS_MEETING.row - 1][this.DAYS_SINCE_PREVIOUS_MEETING.column - 1]);
-        // MALI MODEL
-        everything[0][counter++] = String(allData[this.CLOSENESS.row - 1][this.CLOSENESS.column - 1]);
+        // Three factor model
+        //everything[0][counter++] = String(allData[this.CLOSENESS.row - 1][this.CLOSENESS.column - 1]);
         everything[0][counter++] = String(allData[this.RESOURCES.row - 1][this.RESOURCES.column - 1]);
         everything[0][counter++] = String(allData[this.DEDICATION.row - 1][this.DEDICATION.column - 1]);
         everything[0][counter++] = String(allData[this.REALISATION.row - 1][this.REALISATION.column - 1]);
         everything[0][counter++] = String(allData[this.RESULT.row - 1][this.RESULT.column - 1]);
         everything[0][counter++] = String(allData[this.STAGNATION_STATUS.row - 1][this.STAGNATION_STATUS.column - 1]);
-        everything[0][counter++] = String(allData[this.LAST_UPDATED_MALI.row - 1][this.LAST_UPDATED_MALI.column - 1]);
+        everything[0][counter++] = String(allData[this.LAST_UPDATED_TFM.row - 1][this.LAST_UPDATED_TFM.column - 1]);
         return everything;
     };
     /**
@@ -916,14 +916,14 @@ var CandidateSheet = /** @class */ (function () {
         metrics[0][counter++] = "='" + codeName + "'!" + this.UPCOMING_MEETING_DATE.a1Notation;
         metrics[0][counter++] = "='" + codeName + "'!" + this.NUMBER_COMPLETED_MEETINGS.a1Notation;
         metrics[0][counter++] = "='" + codeName + "'!" + this.DAYS_SINCE_PREVIOUS_MEETING.a1Notation;
-        // MALI MODEL
-        metrics[0][counter++] = "='" + codeName + "'!" + this.CLOSENESS.a1Notation;
+        // Three factor model
+        //metrics[0][counter++] = "='" + codeName + "'!" + this.CLOSENESS.a1Notation;
         metrics[0][counter++] = "='" + codeName + "'!" + this.RESOURCES.a1Notation;
         metrics[0][counter++] = "='" + codeName + "'!" + this.DEDICATION.a1Notation;
         metrics[0][counter++] = "='" + codeName + "'!" + this.REALISATION.a1Notation;
         metrics[0][counter++] = "='" + codeName + "'!" + this.RESULT.a1Notation;
         metrics[0][counter++] = "='" + codeName + "'!" + this.STAGNATION_STATUS.a1Notation;
-        metrics[0][counter++] = "='" + codeName + "'!" + this.LAST_UPDATED_MALI.a1Notation;
+        metrics[0][counter++] = "='" + codeName + "'!" + this.LAST_UPDATED_TFM.a1Notation;
         return metrics;
     };
     /**
@@ -1016,11 +1016,11 @@ var DashboardSheet = /** @class */ (function () {
         snapshot[0][counter++] = allData[this.MEETINGS_THIS_YEAR.row - 1][this.MEETINGS_THIS_YEAR.column - 1];
         snapshot[0][counter++] = allData[this.MEETINGS_LAST_THIRTY.row - 1][this.MEETINGS_LAST_THIRTY.column - 1];
         snapshot[0][counter++] = allData[this.MEETINGS_DAYS_SINCE_PREVIOUS.row - 1][this.MEETINGS_DAYS_SINCE_PREVIOUS.column - 1];
-        snapshot[0][counter++] = allData[this.MALI_THREE_FACTOR_AVARAGE.row - 1][this.MALI_THREE_FACTOR_AVARAGE.column - 1];
-        snapshot[0][counter++] = allData[this.MALI_NUMBER_OF_GREEN.row - 1][this.MALI_NUMBER_OF_GREEN.column - 1];
-        snapshot[0][counter++] = allData[this.MALI_NUMBER_OF_YELLOW.row - 1][this.MALI_NUMBER_OF_YELLOW.column - 1];
-        snapshot[0][counter++] = allData[this.MALI_NUMBER_OF_RED.row - 1][this.MALI_NUMBER_OF_RED.column - 1];
-        snapshot[0][counter++] = allData[this.MALI_AVARAGE.row - 1][this.MALI_AVARAGE.column - 1];
+        snapshot[0][counter++] = allData[this.THREE_FACTOR_AVARAGE.row - 1][this.THREE_FACTOR_AVARAGE.column - 1];
+        //snapshot[0][counter++] = allData[this.TFM_NUMBER_OF_GREEN.row - 1][this.TFM_NUMBER_OF_GREEN.column - 1];
+        //snapshot[0][counter++] = allData[this.TFM_NUMBER_OF_YELLOW.row - 1][this.TFM_NUMBER_OF_YELLOW.column - 1];
+        //snapshot[0][counter++] = allData[this.TFM_NUMBER_OF_RED.row - 1][this.TFM_NUMBER_OF_RED.column - 1];
+        //snapshot[0][counter++] = allData[this.TFM_AVARAGE.row - 1][this.TFM_AVARAGE.column - 1];
         snapshot[0][counter++] = allData[this.CANDIDATES_TOTAL.row - 1][this.CANDIDATES_TOTAL.column - 1];
         snapshot[0][counter++] = allData[this.CANDIDATES_ACTIVE.row - 1][this.CANDIDATES_ACTIVE.column - 1];
         snapshot[0][counter++] = allData[this.STORY_CASE_STUDY_USED.row - 1][this.STORY_CASE_STUDY_USED.column - 1];
@@ -1034,11 +1034,11 @@ var DashboardSheet = /** @class */ (function () {
     DashboardSheet.MEETINGS_THIS_YEAR = { row: 6, column: 3, a1Notation: 'C6' };
     DashboardSheet.MEETINGS_LAST_THIRTY = { row: 7, column: 3, a1Notation: 'C7' };
     DashboardSheet.MEETINGS_DAYS_SINCE_PREVIOUS = { row: 8, column: 3, a1Notation: 'C8' };
-    DashboardSheet.MALI_THREE_FACTOR_AVARAGE = { row: 4, column: 6, a1Notation: 'F4' };
-    DashboardSheet.MALI_NUMBER_OF_GREEN = { row: 5, column: 6, a1Notation: 'F5' };
-    DashboardSheet.MALI_NUMBER_OF_YELLOW = { row: 6, column: 6, a1Notation: 'F6' };
-    DashboardSheet.MALI_NUMBER_OF_RED = { row: 7, column: 6, a1Notation: 'F7' };
-    DashboardSheet.MALI_AVARAGE = { row: 8, column: 6, a1Notation: 'F8' };
+    DashboardSheet.THREE_FACTOR_AVARAGE = { row: 4, column: 6, a1Notation: 'F4' };
+    //DashboardSheet.TFM_NUMBER_OF_GREEN = { row: 5, column: 6, a1Notation: 'F5' };
+    //DashboardSheet.TFM_NUMBER_OF_YELLOW = { row: 6, column: 6, a1Notation: 'F6' };
+    //DashboardSheet.TFM_NUMBER_OF_RED = { row: 7, column: 6, a1Notation: 'F7' };
+    //DashboardSheet.TFM_AVARAGE = { row: 8, column: 6, a1Notation: 'F8' };
     DashboardSheet.CANDIDATES_TOTAL = { row: 11, column: 6, a1Notation: 'F11' };
     DashboardSheet.CANDIDATES_ACTIVE = { row: 12, column: 6, a1Notation: 'F12' };
     DashboardSheet.STORY_CASE_STUDY_USED = { row: 15, column: 6, a1Notation: 'F15' };

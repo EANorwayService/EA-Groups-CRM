@@ -117,11 +117,11 @@ The CRM Main spreadsheet is the most central spredsheet of the system. This will
 
 #### Dashboard
 This is the first sheet of the CRM Main spreadsheet and provides you with an aggregated data for all active candidates. Information in the spreadsheet is updated automatically here when changed in the candidate sheets. This sheet is meant to be read only. <br/>
-![Dashboard sheet](images/Dashborad.png) <br/>
+![Dashboard sheet](images/Dashborad.PNG) <br/>
 
 #### Metrics
 This sheet contains information on all candidates, one person per row. By using filters it is possible to select a subset to look for specific information of eye ball a distribution. Information is added and updated automatically in this sheet. This sheet is meant to be read only. <br/>
-![Metrics sheet](images/Metrics.png) <br/>
+![Metrics sheet](images/Metrics.PNG) <br/>
 
 #### Planner
 This sheet shows an overview of previous meeting and planned meeting of each candidate. The information is fetched form the candidate sheets and this sheet is meant to be read only. <br/>
@@ -129,7 +129,7 @@ This sheet shows an overview of previous meeting and planned meeting of each can
 
 #### Candidate sheets
 Each candidate has their own candidate sheet, and a new sheet is created each time a new candidate is added. This is an example for a candidate sheet for a candidate with the code name "Chicken Iris". These sheets are automatically created when a candidate is added. <br/>
-![Example of candidate sheet](images/candidate_sheet.png) <br/>
+![Example of candidate sheet](images/candidate_sheet.PNG) <br/>
 
 #### Dashboard Historical Data (_hidden in spreadsheet_)
 This sheet stores historical data from the Dashboard sheet, by adding a snapshot of all information from the Dashboard sheet once a week. Only used for calculation purposes and should not be edited it you are very sure of what you are doing. <br/>
@@ -157,7 +157,7 @@ When candidates are added, each one will have their own subfolder in the folder 
 
 ### Add metrics for candidates 
 In the candidate sheets, there are metrics with which you can evaluate each individual candidate. If you would like to add other metrics, either try it yourself in the code or contact us at post@effektivaltruisme.no. 
-![Metrics candidate sheet](images/Metrics_in_candidate_sheet.png) <br/> (CHANGE PICTURE)
+![Metrics candidate sheet](images/Metrics_in_candidate_sheet.PNG) <br/>
 
 The Metrics with white background can be set here for each candidate, but those with grey background are read only and should not be altered directly. <br/>
 

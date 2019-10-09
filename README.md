@@ -128,7 +128,7 @@ This sheet shows an overview of previous meeting and planned meeting of each can
 ![Planner sheet](images/sheetPlanner.png) <br/>
 
 #### Candidate sheets
-Each candidate has their own candidate sheet, and a new sheet is created each time a new candidate is added. This is an example for a candidate sheet for a candidate with the code name "Chicken Iris". These sheets are automatically created when a candidate is added. <br/>
+Each candidate has their own candidate sheet, and a new sheet is created each time a new candidate is added. These sheets are automatically created when a candidate is added. <br/>
 ![Example of candidate sheet](images/candidate_sheet.PNG) <br/>
 
 #### Dashboard Historical Data (_hidden in spreadsheet_)

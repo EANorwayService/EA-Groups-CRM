@@ -14,64 +14,41 @@
 2. Access to the Google/Team Drive Folder where you want to place your CRM system. <br/>
 3. A list of names with (optional) contact info you want to import to your CRM system. We will call this "the member list" in this guide. You can also start without any initial candidates and add individuals later. <br/>
 
-### Alternative 1: Local development
-If you don't want to edit the code, or you are not familiar with using the terminal use alternative 2 instead. Choose this alternative if you would like to add features, or for other reasons tweek the code. To download a fork of the code in GitHub use [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). Afterwards you should use [clasp](https://github.com/google/clasp/) to upload code to Google App Script. Clasp also makes it possible to write code in typescript. You have to enable API [here](https://script.google.com/home/usersettings) before you can use clasp. <br/>
+### Step 1: Open the system in Google App Script, and copy the project
+Open this link. It contains the project in Google App Script where the code to the system lies. Make sure that you're logged in to script.google.com with the user that you want to have access to the system. 
 
-### Alternative 2: Copy/paste code to Google App Script
-If you haven't used a terminal before the easiest way to transfer the code to Google App Script is to copy/paste the code from GitHub to Google App Script. <br/>
+Then, select "File" in the menu, and then select "Make a copy". You now have you're own copy of the system. You can give it a new name - whatever you'd like.
 
-#### Create a new project on script.google.com
-Log in with your preferred Google account and go to [Google App Script](script.google.com). <br/>
-Create a new project by clicking "New script", and give the new project a descriptive name; for instance "CRMsystem" (name of file should _not_ contain spaces). <br/>
-![How to make a new project](images/newProject.png) <br/>
-
-Open the project and make an additional script inside the project, you should now have two scripts. Name these scripts "bundle" and "CRMsetup". They will automatically get the file ending ".gs". <br/>
-![How to make a new script](images/newScript.png) <br/>
-
-Make two additional HTML files and name them "datePickerNewMeeting" and "datePickerOldMeeting". They will automatically get the file ending ".html". <br/>
-![How to make a new HTML file](images/newHTMLFile.png) <br/>
-
-You should now have two scripts(.gs) and two html files(.html) like this listed on the left side: <br/>
-![Pasted code in Google Apps Script](images/readyScript.png) <br/>
-
-Clear the files by marking and delete all default code from all four files. <br/>
-![Delete text from scripts](images/deleteTextScript.png) <br/>
-![Delete text from scripts](images/deleteText.png) <br/>
-
-#### Copy code from GitHub and paste on Google App Script
-Open the following files from [GitHub](https://github.com/EANorgeService/CRMsetup): bundle.js, CRMsetup.js, datePickerNewMeeting.html and datePickerOldMeeting.html, mark and copy all code from them and paste in each corresponding file you just created in Google App Script. Save both scripts and both html files. <br/>
-![Files to copy from GitHub](images/filesGitHub.png) <br/>
-
-### Setup
-After copying and pasting all code from GitHub to Google App Script the CRM-system can be set up in a destination folder on your Google Drive.
-
-### Step 1: Enable Advanced Drive Service
-Do the following in the project you just made in Google App Script: Click **Resources > Advanced Google Services** scroll down to **Drive API** and enable it. <br/>
+### Step 2: Enable Advanced Drive Service
+Do the following in the new project in Google App Script: Click **Resources > Advanced Google Services** scroll down to **Drive API** and enable it. <br/>
 ![Advanced Google Services](images/advancedService.png)
 
-### Step 2: Add file ID with list of initial candidates to CRMsetup.gs
+### Step 3: Add the ID of the file with a list of the member list to CRMsetup.gs
 Find or make a Google spreadsheet with a list of the names of the people you want to import to your CRM system. You can use a wider list of people and later choose who you specifically want to add as candidates to the system. <br/>
-See [this example](https://docs.google.com/spreadsheets/d/1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io/edit?usp=sharing) of such a list, and use the example list if you are only testing the system. Your list should have the same structure as the example linked above. The script assumes that your list starts in cell A1. Now copy the ID between the last two backslashes in the URL of your list, as shown below. Do not include the backslashes. <br/>
+See [this example](https://docs.google.com/spreadsheets/d/1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io/edit?usp=sharing) of such a list, and use the example list if you are only testing the system. Your list should have the same structure as the example linked above, though it can have multiple extra columns. The script assumes that your list starts in cell A1. <br/>
+
+Copy the ID of the member list found in between the last two backslashes, as shown in the picture below. Do not include the backslashes.<br/>
+
 
 ![How to find ID for member list](images/memberlistId.png)
 
-Go to the script called CRMsetup, and add the ID to **MEMBERLIST_ID**, add the ID between quotationmarks. The script will copy all information from your list and add it to the key sheet. br/>
+Then, go to your project in Google App Script and make sure you are in CRMsetup.gs. Find line 14 where it says **MEMBERLIST_ID**, and enter the ID of the member list between the quotationmarks. Do not remove the quotationmarks. Save the script by selecting "File" and "Save". br/>
 
 ![Where to add ID for list of members](images/addMemberListId.png)
 
-Remember to not delete or overwrite the qoutationmakrs and save the script. <br/>
+### Step 4: Enter a name for your CRM-system folder in CRMsetup.gs
+While in your project on Google App Script and in CRMsetup.gs, find line 18 where it says **NEW_FOLDER_NAME**. Enter the name of your CRM-system. You can choose to not change the name, and then it will be called CRM-system.
 
-### Step 3: Add ID for destination folder to CRMsetup.gs
-Choose a secure location on Google Drive with the sharing settings of your liking (but your Google account must have full access). This will be the location of your CRM-system. Find the ID of that Google Drive folder. Copy this ID, do not include the backslashes. <br/>
+### Step 5: Add the ID of the destination folder to CRMsetup.gs
+Choose a secure folder on Google/Team Drive with the sharing settings of your liking (but your Google account must have full access). Make sure that you are logged into your preferred user account. This folder will be the location of your CRM-system. Find the ID of that Google Drive folder between the last two backslashes. Copy the ID, and do not include the backslashes. <br/>
 ![How to find ID for folder](images/teamDriveId.png) <br/>
 
-Go to the script called setUpCRM.gs, and add the ID to **DRIVE_FOLDER_ID**, add the ID between quotationmarks. <br/>
+Then, go to your project in Google App Script and make sure you are in CRMsetup.gs. Find line 22 where it says **DRIVE_FOLDER_ID**, and enter the ID of the destination folder between the quotationmarks. Do not remove the quotationmarks. Save the script by selecting "File" and "Save". br/>
+
 ![Where to add folder ID](images/addFolderId.png) <br/>
 
-Remember to not delete or overwrite the qoutationmakrs and save the script. <br/>
-
-### Step 4: Try to run setupCRM() function
-Be sure all scripts are saved. When you've added ID for destination folder and for list of initial candidates make sure you are in the setUpCRM.gs file and click **Run > Run function > setUpCRM**. <br/>
+### Step 6: Try to run setupCRM() function in CRMsetup.gs
+Be sure all scripts are saved by selecting "File" and "Save". Then, select: **Run > Run function > setUpCRM**. <br/>
 ![Run setUpCRM function](images/setUpFunction.png) <br/>
 
 NB: You may be asked to review [authorization](https://developers.google.com/apps-script/guides/services/advanced), see picture below. <br/>
@@ -80,19 +57,21 @@ NB: You may be asked to review [authorization](https://developers.google.com/app
 If you can not find the function setupCRM() you might be in the wrong file. The CRM system is not a published app nor is it verified by google, therefore google needs permission to run the app. More information [here](https://developers.google.com/apps-script/guides/services/advanced). Click review permission and allow. <br/>
 ![Allow authorization](images/authorizationAllow.png) <br/>
 
-Now Google will tell you that the CRM system is not an app verified by them. Click **Advanced > Go to CRM(unsafe)** <br/>
+Now Google will likely tell you that the CRM system is not an app verified by them. Click **Advanced > Go to CRM(unsafe)** <br/>
 ![App is not verified by google](images/errorNotVerified.png) <br/>
 
-### Step 5: Run setUpCRM() function again
-After reviewing permission and allowing the CRM system access and approving that you know and trust the app/developer you need to run the setUpCRM function once more. <br/>
+### Step 7: Run setUpCRM() function again
+After reviewing permission, allowing the CRM system access and approving that you know and trust the app/developer, you need to run the setUpCRM function once more. <br/>
 
-Make sure you are in the setUpCRM.gs file and click **Run > Run function > setUpCRM**. If you can not find the function **setupCRM()** you might be in the wrong file. <br/>
+Make sure you are in the setUpCRM.gs file and select **Run > Run function > setUpCRM**. If you can not find the function **setupCRM()** you might be in the wrong file. <br/>
 ![Run setUpCRM function](images/setUpFunction.png) <br/>
 
-If there are multiple crm-versions in the destination folder, you should remove all older versions and only run the newest one. <br/> 
+If there are multiple versions of the CRM-system in the destination folder, you should remove all older versions from that folder and only run the newest one. <br/> 
 
-### Step 6: Move CRM Key spreadsheet to a secure location
-If you prefer to used anonymised code names and you don't want everyone using the CRM system to have access to candidates real name you can move the Key spreadsheet to some other location. Only accounts given access to this sheet may run the function "add candidates". Remember that everyone who has access to the script files can also access data from the Key spreadsheet. 
+You now have a CRM-system on your Google/Team drive! 
+
+### Step 8: Move CRM Key spreadsheet to a secure location (optional)
+If you prefer to used anonymised code names and you don't want everyone using the CRM-system to have access to candidates' real name you can move the Key spreadsheet to some other location (see more information about the Key spreadsheet in "About the CRM-system" section below. Only accounts given access to this sheet may run the function "add candidates". Remember that everyone who has access to the script files can also access data from the Key spreadsheet. 
 
 
 # About the CRM system <a name="aboutCRM"></a>

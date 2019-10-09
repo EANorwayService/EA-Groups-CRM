@@ -214,9 +214,6 @@ This probably means that an ID for a file is missing, check again that you added
 
 # FAQ <a name="FAQ"></a>
 
-### What do I need to know to use alternative 1 of set up?
-Alternative 1 is not difficult, but it takes longer if you have never used a terminal before and probably requieres some googleing. If you are going to use this system, alternative 1 is recomended, it makes it easier to make your own changes later. Here is a [guide](https://github.com/EANorwayService/CRM_setup_advanced) for alternative 1. <br/>
-
 ### How to change meeting notes template
 If you replace the whole file you also need to update the file id in the code, if you only replace the content of the existing file you do not have to change anything in the code. The meeting notes template can be changed by going to your CRM folder and click: <br/>
 **CRM Templates > CRM Template Meeting Notes**. <br/>
@@ -226,7 +223,7 @@ If you want to replace the file, and not just the content of the existing file, 
 The names of the _spreadsheets_ can be changed. But unfortunately the names of the _sheets_ within the spreadsheets *can not be changed* without also changing them in the code. Also, the folders with the code names of each candidate *can not be changed*. <br/>
 
 ### Can I remove, add or change something in sheets?
-The code does not know what your sheets look like if you make changes. If you change the structure of sheet you probably also need to change this in the code if it is a part that is affected by the code. Here is a guide on how to do it: https://github.com/EANorwayService/CRM_setup_advanced#aboutCode. <br/>
+The code does not know what your sheets look like if you make changes. If you change the structure of sheet you probably also need to change this in the code if it is a part that is affected by the code. Either try on your own or contact us on post@effektivaltruisme.no if you'd like to do this. <br/>
 
 ### Can I change the names of the folders? 
 You can change the names of all folders *except the candidate folders*, they need to have the same names as the candidates. The folders with the meeting notes inside the candidate folders also need to have the original name, if no folder with the name "Meeting Notes" is found in candidate folder a new folder with the name "Meeting Notes" will be created when a new note is generated.
@@ -251,19 +248,19 @@ You do not have to change anything in the code. <br/>
 After doing this you should run the function copySystem(). This function will make a function of all spreadsheets and add the new sheets to the code. This way the candidate is also deleted from the spreadsheets' version history. <br/>
 
 ### How can I change when and how often the system is updated autmatically?
-Open the code and click *Edit > Current project's triggers*. Find the trigger for updateEverything() and you can now edit how often this is triggered. <br/>
+Open the code and select **Edit > Current project's triggers**. Find the trigger for updateEverything() and you can now edit how often this is triggered. <br/>
 
 ### How can I change how often dashboard and candidates are snapshoted for the historical sheets? 
-Open the code and click *Edit > Current project's triggers*. Find the trigger for weeklySnapshot() and you can now edit how often this is triggered. <br/>
+Open the code and select **Edit > Current project's triggers**. Find the trigger for weeklySnapshot() and you can now edit how often this is triggered. <br/>
 
 ### What is case study/success story?
-The CRM system allows you to mark candidates as potential case studies or success stories. You can use case studies/success stories for reporting, testemonials or qualitative evaluation of your 1:1 conversations, for instence. <br/>
+The CRM system allows you to mark candidates as potential case studies or success stories. You can use case studies/success stories for reporting, testemonials or qualitative evaluation of your one-to-one conversations, for instance. <br/>
 
 ### What is the three-factor model? 
 This is a model introduced by the Centre for Effective Altruism to get an overview of the candidates' levels of resources, dedication and realisation. You give a score for each candidate from 1-3 on these three factors, and can see aggregated and average scores in the Dashboard and Metrics tabs in the CRM Main. Send an email to post@effektivaltruisme.no for more information. <br/>
 
 ### Who should I contact if I have issues? 
-post@effektivaltruisme.no <br/>
+The EA Norway team at post@effektivaltruisme.no <br/>
 
 
 # Extra <a name="extra"></a>

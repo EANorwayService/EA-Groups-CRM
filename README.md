@@ -23,7 +23,7 @@ Then, select "File" in the menu, and then select "Make a copy". You now have you
 Do the following in the new project in Google App Script: Click **Resources > Advanced Google Services** scroll down to **Drive API** and enable it. <br/>
 ![Advanced Google Services](images/advancedService.png)
 
-### Step 3: Add the ID of the file with a list of the member list to CRMsetup.gs
+### Step 3: Add the ID of the member list to CRMsetup.gs
 Find or make a Google spreadsheet with a list of the names of the people you want to import to your CRM system. You can use a wider list of people and later choose who you specifically want to add as candidates to the system. <br/>
 See [this example](https://docs.google.com/spreadsheets/d/1PEZhv7JwFeFfu8oeloPuxFmHMNCop2YdguYI1G0g4io/edit?usp=sharing) of such a list, and use the example list if you are only testing the system. Your list should have the same structure as the example linked above, though it can have multiple extra columns. The script assumes that your list starts in cell A1. <br/>
 

@@ -15,7 +15,7 @@
 3. A list of names with (optional) contact info you want to import to your CRM system. We will call this "the member list" in this guide. You can also start without any initial candidates and add individuals later. <br/>
 
 ### Step 1: Open the system in Google App Script, and copy the project
-[Open this link.](https://script.google.com/a/effektivaltruisme.no/d/1b3tvzY4FpxrJmMaEKILrUdpSjP0UWf_fjcAQxvPVpvO9fyy6rkT5728N/edit) It contains the project in Google App Script where the code to the system lies. Make sure that you're logged in to script.google.com with the user that you want to have access to the system. 
+[Open this link](https://script.google.com/a/effektivaltruisme.no/d/1b3tvzY4FpxrJmMaEKILrUdpSjP0UWf_fjcAQxvPVpvO9fyy6rkT5728N/edit) in a new tab. It contains the project in Google App Script where the code to the system lies. Make sure that you're logged in to script.google.com with the user that you want to have access to the system. 
 
 Then, select **File > Make a copy**. You now have you're own copy of the system. You can give it a new name - whatever you'd like.
 

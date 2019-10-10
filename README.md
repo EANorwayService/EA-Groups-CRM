@@ -56,8 +56,10 @@ NB: You may be asked to review [authorization](https://developers.google.com/app
 If you can not find the function setupCRM() you might be in the wrong file. The CRM system is not a published app nor is it verified by google, therefore google needs permission to run the app. More information [here](https://developers.google.com/apps-script/guides/services/advanced). Click review permission and allow. <br/>
 ![Allow authorization](images/authorizationAllow.png) <br/>
 
-Now Google will likely tell you that the CRM system is not an app verified by them. Click **Advanced > Go to CRM(unsafe)** <br/>
+If Google tells you that the CRM system is not an app verified by them, select **Advanced > Go to CRM(unsafe)** and proceed to step 7. <br/>
 ![App is not verified by google](images/errorNotVerified.png) <br/>
+
+If Google does not tell you this, go check in your destination folder. If the system isn't there, proceed to step 7. If the system is there, proceed to step 8. 
 
 ### Step 7: Run setUpCRM() function again
 After reviewing permission, allowing the CRM system access and approving that you know and trust the app/developer, you need to run the setUpCRM function once more. <br/>

@@ -15,9 +15,9 @@
 3. A list of names with (optional) contact info you want to import to your CRM system. We will call this "the member list" in this guide. You can also start without any initial candidates and add individuals later. <br/>
 
 ### Step 1: Open the system in Google App Script, and copy the project
-[Open this link](https://script.google.com/a/effektivaltruisme.no/d/1b3tvzY4FpxrJmMaEKILrUdpSjP0UWf_fjcAQxvPVpvO9fyy6rkT5728N/edit) in a new tab. It contains the project in Google App Script where the code to the system lies. Make sure that you're logged in to script.google.com with the user that you want to have access to the system. 
+[Open this link](https://script.google.com/a/effektivaltruisme.no/d/1b3tvzY4FpxrJmMaEKILrUdpSjP0UWf_fjcAQxvPVpvO9fyy6rkT5728N/edit) in a new tab. It contains the project in Google App Script where the code to the system lies. Make sure that you're logged in to script.google.com with the user that you want to have access to the system. Check which user is logged in in your upper right corner.
 
-Then, select **File > Make a copy**. You now have you're own copy of the system. You can give it a new name - whatever you'd like.
+Then, select **File > Make a copy**. You now have you're own copy of the system code. You can give it a new name - whatever you'd like.
 
 ### Step 2: Enable Advanced Drive Service
 Do the following in the new project in Google App Script: Click **Resources > Advanced Google Services** scroll down to **Drive API** and enable it. <br/>
@@ -29,15 +29,14 @@ See [this example](https://docs.google.com/spreadsheets/d/1PEZhv7JwFeFfu8oeloPux
 
 Copy the ID of the member list found in between the last two backslashes, as shown in the picture below. Do not include the backslashes.<br/>
 
-
 ![How to find ID for member list](images/memberlistId.png)
 
 Then, go to your project in Google App Script and make sure you are in CRMsetup.gs. Find line 14 where it says **MEMBERLIST_ID**, and enter the ID of the member list between the quotationmarks. Do not remove the quotationmarks. Save the script by selecting **File > Save.** br/>
 
 ![Where to add ID for list of members](images/addMemberListId.png)
 
-### Step 4: Enter a name for your CRM-system folder in CRMsetup.gs (Optional)
-While in your project on Google App Script and in CRMsetup.gs, find line 18 where it says **NEW_FOLDER_NAME**. Enter the name of your CRM-system. You can choose to not change the name, and then it will be called CRM-system.
+### Step 4 (Optional): Enter a name for your CRM-system folder in CRMsetup.gs
+While in file CRMsetup.gs in your project on Google App Script, find line 18 where it says **NEW_FOLDER_NAME**. Enter the name of your CRM-system. You can choose to not change the name, and then it will be called _CRM-system_.
 
 ### Step 5: Add the ID of the destination folder to CRMsetup.gs
 Choose a secure folder on Google/Team Drive with the sharing settings of your liking (but your Google account must have full access). Make sure that you are logged into your preferred user account. This folder will be the location of your CRM-system. Find the ID of that Google Drive folder between the last two backslashes. Copy the ID, and do not include the backslashes. <br/>
